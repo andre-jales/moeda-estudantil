@@ -51,5 +51,7 @@ export class UsersService {
 
   async createCompany() {}
 
-  async findByEmail() {}
+  async findByEmail(email: string) {
+    return this.prismaService.user.findUnique({ where: { email } });
+  }
 }
