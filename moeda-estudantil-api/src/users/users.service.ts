@@ -31,7 +31,17 @@ export class UsersService {
 
     const createdStudent = await this.prismaService.student.create({
       data: studentData,
-      include: { user: true },
+      include: {
+        user: {
+          select: {
+            id: true,
+            email: true,
+            role: true,
+            createdAt: true,
+            updatedAt: true,
+          },
+        },
+      },
     });
 
     return createdStudent;
