@@ -28,8 +28,8 @@ export class AuthService {
     }
 
     const payload: JwtPayloadDTO = {
-      sub: user.id,
-      username: user.email,
+      id: user.id,
+      email: user.email,
       role: user.role,
     };
 
@@ -45,7 +45,7 @@ export class AuthService {
       throw new UnauthorizedException();
     }
 
-    const user = await this.usersService.findByEmail(decoded.username);
+    const user = await this.usersService.findByEmail(decoded.email);
 
     if (!user) {
       throw new UnauthorizedException();
