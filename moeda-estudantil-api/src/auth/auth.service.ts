@@ -28,7 +28,7 @@ export class AuthService {
     }
 
     const payload: JwtPayloadDTO = {
-      id: user.id,
+      sub: user.id,
       email: user.email,
       role: user.role,
     };
