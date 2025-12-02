@@ -21,4 +21,10 @@ export class LoginManager {
 
     return data.access_token;
   }
+
+  async getAuthenticatedUserInfo() {
+    const userInfo = await this.loginRepository.getUserInfo();
+
+    return userInfo;
+  }
 }

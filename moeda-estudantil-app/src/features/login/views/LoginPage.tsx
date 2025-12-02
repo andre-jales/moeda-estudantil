@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   IconButton,
   InputAdornment,
@@ -6,7 +7,6 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import {
@@ -20,13 +20,17 @@ import {
 import { LOGIN_PAGE_TEXTS } from "../utils/constants";
 import { useAuth } from "../hooks/useAuth";
 import { BrowserApi } from "../../../shared/BrowserApi/BrowserApi";
+import { useLoadUserInfo } from "../hooks/useLoadUserInfo";
+import { useLoginSlice } from "../hooks/useLoginSlice";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { mutateAsync: login, isPending } = useAuth();
+  const { setAuthenticatedUser } = useLoginSlice();
+  const { refetch, isLoading } = useLoadUserInfo();
+  const navigate = useNavigate();
 
   const renderError = () => {
     if (!error) {
@@ -39,6 +43,20 @@ const LoginPage = () => {
       </Typography>
     );
   };
+
+  const onLoginSuccess = async (token: string) => {
+    BrowserApi.setToken(token);
+
+    const userInfo = await refetch();
+
+    if (userInfo.data) {
+      setAuthenticatedUser(userInfo.data);
+    }
+
+    setError("");
+  };
+
+  const { mutateAsync: login, isPending } = useAuth(onLoginSuccess);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -59,9 +77,8 @@ const LoginPage = () => {
     }
 
     login({ email, password })
-      .then((token: string) => {
-        BrowserApi.setToken(token);
-        setError("");
+      .then(() => {
+        navigate("/");
       })
       .catch((error: { response?: { status: number } }) => {
         if (error.response?.status === 401) {
@@ -134,7 +151,7 @@ const LoginPage = () => {
           <SubmitButton
             type="submit"
             variant="contained"
-            loading={isPending}
+            loading={isPending || isLoading}
             fullWidth
           >
             {LOGIN_PAGE_TEXTS.buttonText}
