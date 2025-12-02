@@ -54,4 +54,42 @@ export class UsersService {
   async findByEmail(email: string) {
     return this.prismaService.user.findUnique({ where: { email } });
   }
+
+  async findById(id: string) {
+    const user = await this.prismaService.user.findUnique({
+      select: {
+        id: true,
+        role: true,
+        email: true,
+        createdAt: true,
+        updatedAt: true,
+        company: true,
+        student: true,
+        teacher: true,
+      },
+      where: { id },
+    });
+
+    if (!user) {
+      return null;
+    }
+
+    return {
+      id: user.id,
+      email: user.email,
+      role: user.role,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+      ...(user.role === Role.STUDENT && {
+        name: user.student?.name,
+        course: user.student?.course,
+      }),
+      ...(user.role === Role.TEACHER && {
+        name: user.teacher?.name,
+      }),
+      ...(user.role === Role.COMPANY && {
+        name: user.company?.name,
+      }),
+    };
+  }
 }

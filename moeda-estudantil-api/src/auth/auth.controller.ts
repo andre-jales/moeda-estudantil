@@ -26,6 +26,6 @@ export class AuthController {
   @UseGuards(AuthGuard)
   @Get('me')
   getProfile(@Request() req: { user: JwtPayloadDTO }) {
-    return req.user;
+    return this.authService.getUserFromId(req.user.sub);
   }
 }

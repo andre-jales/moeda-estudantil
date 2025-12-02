@@ -38,14 +38,8 @@ export class AuthService {
     };
   }
 
-  async getUserFromToken(token: string) {
-    const decoded = this.jwtService.decode<JwtPayloadDTO>(token);
-
-    if (!decoded) {
-      throw new UnauthorizedException();
-    }
-
-    const user = await this.usersService.findByEmail(decoded.email);
+  async getUserFromId(id: string) {
+    const user = await this.usersService.findById(id);
 
     if (!user) {
       throw new UnauthorizedException();
