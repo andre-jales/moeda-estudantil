@@ -160,7 +160,7 @@ const LoginPage = () => {
 
         <Typography variant="body2" align="center" mt={3}>
           {LOGIN_PAGE_TEXTS.stillNoAccount}
-          <Link href="#" underline="none">
+          <Link href="/register" underline="none">
             {LOGIN_PAGE_TEXTS.signUp}
           </Link>
         </Typography>

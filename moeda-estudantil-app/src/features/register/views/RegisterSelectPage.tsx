@@ -1,0 +1,48 @@
+import { Typography } from "@mui/material";
+import {
+  Card,
+  Container,
+  OptionButton,
+  OptionsWrapper,
+  Title,
+} from "./styles/RegisterSelectPage.styled";
+import { useNavigate } from "react-router-dom";
+import { REGISTER_SELECT_PAGE_TEXTS } from "../utils/constants";
+
+const RegisterSelectPage = () => {
+  const navigate = useNavigate();
+
+  return (
+    <Container>
+      <Card elevation={6}>
+        <Title variant="h5" fontWeight={700} gutterBottom>
+          {REGISTER_SELECT_PAGE_TEXTS.title}
+        </Title>
+
+        <Typography variant="body2" color="text.secondary" mb={3}>
+          {REGISTER_SELECT_PAGE_TEXTS.subtitle}
+        </Typography>
+
+        <OptionsWrapper>
+          <OptionButton
+            variant="contained"
+            onClick={() => navigate("/register/student")}
+            fullWidth
+          >
+            {REGISTER_SELECT_PAGE_TEXTS.studentButton}
+          </OptionButton>
+
+          <OptionButton
+            variant="contained"
+            onClick={() => navigate("/register/company")}
+            fullWidth
+          >
+            {REGISTER_SELECT_PAGE_TEXTS.companyButton}
+          </OptionButton>
+        </OptionsWrapper>
+      </Card>
+    </Container>
+  );
+};
+
+export default RegisterSelectPage;

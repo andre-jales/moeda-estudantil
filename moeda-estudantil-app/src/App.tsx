@@ -3,12 +3,22 @@ import LoginPage from "./features/login/views/LoginPage";
 import MainLayout from "./features/dashboard/views/MainLayout";
 import InstitutionsPage from "./features/institutions/views/InstitutionsPage";
 import StudentsPage from "./features/students/views/StudentsPage";
+import RegisterSelectPage from "./features/register/views/RegisterSelectPage";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="login" element={<LoginPage />} />
+        <Route path="register" element={<RegisterSelectPage />} />
+        <Route
+          path="register/student"
+          element={<h1>Student Register Page</h1>}
+        />
+        <Route
+          path="register/company"
+          element={<h1>Company Register Page</h1>}
+        />
         <Route path="/" element={<MainLayout />} />
 
         <Route element={<MainLayout />}>
