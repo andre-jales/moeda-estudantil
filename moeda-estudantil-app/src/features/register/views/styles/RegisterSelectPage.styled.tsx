@@ -38,3 +38,11 @@ export const OptionButton = styled(Button)({
   fontWeight: 700,
   fontSize: "1rem",
 });
+
+export const BackButton = styled(Button)({
+  padding: "0.75rem 0",
+  fontWeight: 700,
+  fontSize: "1rem",
+  color: "#555",
+  borderColor: "#ccc",
+});

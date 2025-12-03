@@ -5,6 +5,7 @@ import {
   OptionButton,
   OptionsWrapper,
   Title,
+  BackButton,
 } from "./styles/RegisterSelectPage.styled";
 import { useNavigate } from "react-router-dom";
 import { REGISTER_SELECT_PAGE_TEXTS } from "../utils/constants";
@@ -39,6 +40,14 @@ const RegisterSelectPage = () => {
           >
             {REGISTER_SELECT_PAGE_TEXTS.companyButton}
           </OptionButton>
+
+          <BackButton
+            variant="outlined"
+            onClick={() => navigate("/login")}
+            fullWidth
+          >
+            {REGISTER_SELECT_PAGE_TEXTS.backButton}
+          </BackButton>
         </OptionsWrapper>
       </Card>
     </Container>

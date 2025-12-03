@@ -3,4 +3,5 @@ export const REGISTER_SELECT_PAGE_TEXTS = {
   subtitle: "Como deseja se registrar na plataforma?",
   studentButton: "Sou Aluno",
   companyButton: "Sou Empresa",
+  backButton: "Voltar ao Login",
 };
