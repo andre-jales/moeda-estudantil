@@ -3,6 +3,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateStudentDTO } from './dto/create-student-dto';
 import { hashPassword } from 'src/common/utils/password.utils';
 import { Role } from 'generated/prisma/enums';
+import { UpdateStudentDTO } from './dto/update-student-dto';
 
 @Injectable()
 export class UsersService {
@@ -76,6 +77,11 @@ export class UsersService {
             updatedAt: true,
           },
         },
+        institution: {
+          select: {
+            name: true,
+          },
+        },
       },
     });
 
@@ -90,6 +96,7 @@ export class UsersService {
       address: student.address,
       course: student.course,
       institutionId: student.institutionId,
+      institutionName: student.institution.name,
     }));
 
     const totalPages = Math.ceil(total / limit);
@@ -142,7 +149,7 @@ export class UsersService {
     };
   }
 
-  async updateStudent(id: string, updateStudentDTO: CreateStudentDTO) {
+  async updateStudent(id: string, updateStudentDTO: UpdateStudentDTO) {
     const updatedStudent = await this.prismaService.student.update({
       where: { userId: id },
       data: {

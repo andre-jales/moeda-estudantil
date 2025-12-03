@@ -14,6 +14,7 @@ import { AuthGuard } from 'src/auth/auth.guard';
 import { RolesGuard } from 'src/common/guards/roles.guard';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { GetAllStudentsDTO } from './dto/get-all-students.dto';
+import { UpdateStudentDTO } from './dto/update-student-dto';
 
 @Controller('users')
 export class UsersController {
@@ -43,7 +44,7 @@ export class UsersController {
   @Roles('ADMIN')
   updateStudent(
     @Param('id') id: string,
-    @Body() updateStudentDTO: CreateStudentDTO,
+    @Body() updateStudentDTO: UpdateStudentDTO,
   ) {
     return this.usersService.updateStudent(id, updateStudentDTO);
   }
