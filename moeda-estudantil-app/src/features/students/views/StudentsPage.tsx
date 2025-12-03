@@ -15,6 +15,7 @@ import {
   IconButton,
   Snackbar,
   Alert,
+  Tooltip,
 } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import EditIcon from "@mui/icons-material/Edit";
@@ -230,68 +231,45 @@ const StudentsPage: FC = () => {
       </HeaderWrapper>
 
       <TableWrapper>
-        <Table>
-          <StyledTableHead>
-            <TableRow>
-              <TableCell>{STUDENTS_PAGE_TEXT.table.name}</TableCell>
-              <TableCell>{STUDENTS_PAGE_TEXT.table.email}</TableCell>
-              <TableCell>{STUDENTS_PAGE_TEXT.table.course}</TableCell>
-              <TableCell>{STUDENTS_PAGE_TEXT.table.institution}</TableCell>
-            </TableRow>
-          </StyledTableHead>
-        </Table>
-
         <TableContainer>
-          <Table>
+          <Table stickyHeader>
+            <StyledTableHead>
+              <TableRow>
+                <TableCell>{STUDENTS_PAGE_TEXT.table.name}</TableCell>
+                <TableCell>{STUDENTS_PAGE_TEXT.table.email}</TableCell>
+                <TableCell>{STUDENTS_PAGE_TEXT.table.course}</TableCell>
+                <TableCell>{STUDENTS_PAGE_TEXT.table.institution}</TableCell>
+                <TableCell align="right">Ações</TableCell>
+              </TableRow>
+            </StyledTableHead>
+
             <TableBody>
               {items.length === 0 && (
                 <TableRow>
-                  <TableCell>{STUDENTS_PAGE_TEXT.table.empty}</TableCell>
+                  <TableCell colSpan={5}>
+                    {STUDENTS_PAGE_TEXT.table.empty}
+                  </TableCell>
                 </TableRow>
               )}
 
               {items.map((s: IStudent) => (
                 <TableRow key={s.id} hover>
-                  <TableCell
-                    sx={{
-                      position: "relative",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      paddingRight: "56px",
-                      "& .edit-btn": {
-                        opacity: 0,
-                        transition: "opacity 0.2s",
-                      },
-                      "&:hover .edit-btn": {
-                        opacity: 1,
-                      },
-                    }}
-                  >
-                    {s.name}
-
-                    <IconButton
-                      className="edit-btn"
-                      onClick={() => handleEdit(s)}
-                      sx={{
-                        position: "absolute",
-                        right: 8,
-                        top: "50%",
-                        transform: "translateY(-50%)",
-                      }}
-                    >
-                      <EditIcon />
-                    </IconButton>
-                  </TableCell>
+                  <TableCell>{s.name}</TableCell>
                   <TableCell>{s.email}</TableCell>
                   <TableCell>{s.course}</TableCell>
                   <TableCell>{s.institutionName}</TableCell>
+                  <TableCell align="right">
+                    <Tooltip title="Editar aluno" arrow>
+                      <IconButton onClick={() => handleEdit(s)}>
+                        <EditIcon />
+                      </IconButton>
+                    </Tooltip>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
-
         <TablePagination
           component="div"
           count={total}
@@ -303,6 +281,9 @@ const StudentsPage: FC = () => {
             setPage(0);
           }}
           labelRowsPerPage={STUDENTS_PAGE_TEXT.pagination.rowsPerPage}
+          labelDisplayedRows={({ from, to, count }) =>
+            `${from}-${to} de ${count}`
+          }
         />
       </TableWrapper>
 

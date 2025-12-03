@@ -15,6 +15,7 @@ import {
   IconButton,
   Snackbar,
   Alert,
+  Tooltip,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
@@ -158,47 +159,32 @@ const InstitutionsPage: FC = () => {
         </Table>
 
         <TableContainer>
-          <Table>
+          <Table stickyHeader>
+            <StyledTableHead>
+              <TableRow>
+                <TableCell>{INSTITUTIONS_PAGE_TEXT.table.name}</TableCell>
+                <TableCell align="right">Ações</TableCell>
+              </TableRow>
+            </StyledTableHead>
+
             <TableBody>
               {items.length === 0 && (
                 <TableRow>
-                  <TableCell>{INSTITUTIONS_PAGE_TEXT.table.empty}</TableCell>
+                  <TableCell colSpan={2}>
+                    {INSTITUTIONS_PAGE_TEXT.table.empty}
+                  </TableCell>
                 </TableRow>
               )}
 
               {items.map((i: IInstitution) => (
                 <TableRow key={i.id} hover>
-                  <TableCell
-                    sx={{
-                      position: "relative",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      paddingRight: "56px",
-
-                      "& .edit-btn": {
-                        opacity: 0,
-                        transition: "opacity 0.2s",
-                      },
-                      "&:hover .edit-btn": {
-                        opacity: 1,
-                      },
-                    }}
-                  >
-                    {i.name}
-
-                    <IconButton
-                      className="edit-btn"
-                      onClick={() => handleEdit(i)}
-                      sx={{
-                        position: "absolute",
-                        right: 8,
-                        top: "50%",
-                        transform: "translateY(-50%)",
-                      }}
-                    >
-                      <EditIcon />
-                    </IconButton>
+                  <TableCell>{i.name}</TableCell>
+                  <TableCell align="right">
+                    <Tooltip title="Editar" arrow>
+                      <IconButton onClick={() => handleEdit(i)}>
+                        <EditIcon />
+                      </IconButton>
+                    </Tooltip>
                   </TableCell>
                 </TableRow>
               ))}
@@ -218,6 +204,9 @@ const InstitutionsPage: FC = () => {
           }}
           sx={{ overflow: "hidden" }}
           labelRowsPerPage={INSTITUTIONS_PAGE_TEXT.pagination.rowsPerPage}
+          labelDisplayedRows={({ from, to, count }) =>
+            `${from}-${to} de ${count}`
+          }
         />
       </TableWrapper>
 
