@@ -3,10 +3,14 @@ import type {
   IInstitution,
   INewInstitution,
   IUpdatedInstitution,
+  IGetInstitutionsResponse,
 } from "./IInstitution";
 
 export interface IInstitutionsRepository {
-  getAllInstitutions(params: IGetInstitutionsParams): Promise<IInstitution[]>;
+  getAllInstitutions(
+    params: IGetInstitutionsParams
+  ): Promise<IGetInstitutionsResponse>;
+
   getInstitutionById(id: string): Promise<IInstitution | null>;
   createInstitution(institution: INewInstitution): Promise<IInstitution>;
   updateInstitution(

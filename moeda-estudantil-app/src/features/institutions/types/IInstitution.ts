@@ -18,3 +18,11 @@ export interface IGetInstitutionsParams {
   limit?: number;
   name?: string;
 }
+
+export interface IGetInstitutionsResponse {
+  items: IInstitution[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}

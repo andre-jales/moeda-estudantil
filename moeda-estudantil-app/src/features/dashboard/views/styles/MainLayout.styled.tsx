@@ -3,7 +3,6 @@ import Box from "@mui/material/Box";
 
 export const Content = styled(Box)(({ theme }) => ({
   flexGrow: 1,
-  padding: theme.spacing(4),
-  marginTop: "4rem",
   overflow: "hidden",
+  backgroundColor: theme.palette.background.default,
 }));

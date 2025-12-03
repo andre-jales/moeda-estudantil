@@ -1,13 +1,13 @@
 import { Box, Button, Paper, styled } from "@mui/material";
 
-export const Container = styled(Box)({
+export const Container = styled(Box)(({ theme }) => ({
   minHeight: "100vh",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
   padding: "1rem",
-  background: "linear-gradient(180deg, #f5f7fb 0%, #ffffff 60%)",
-});
+  background: theme.palette.background.default,
+}));
 
 export const Card = styled(Paper)({
   width: "100%",

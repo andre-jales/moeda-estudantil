@@ -1,6 +1,7 @@
 import type { AxiosInstance } from "axios";
 import type {
   IGetInstitutionsParams,
+  IGetInstitutionsResponse,
   IInstitution,
   INewInstitution,
   IUpdatedInstitution,
@@ -18,7 +19,7 @@ export class InstitutionsRepository implements IInstitutionsRepository {
 
   async getAllInstitutions(
     params: IGetInstitutionsParams
-  ): Promise<IInstitution[]> {
+  ): Promise<IGetInstitutionsResponse> {
     const pageAndSkipQuery =
       params.page && params.limit
         ? `?page=${params.page}&limit=${params.limit}`
@@ -30,7 +31,7 @@ export class InstitutionsRepository implements IInstitutionsRepository {
 
     const url = API_ROUTES.GET_INSTITUTIONS + pageAndSkipQuery + nameQuery;
 
-    const response = await this.api.get<IInstitution[]>(url);
+    const response = await this.api.get<IGetInstitutionsResponse>(url);
 
     return response.data;
   }
