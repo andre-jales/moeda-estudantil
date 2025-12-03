@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LoginPage from "./features/login/views/LoginPage";
 import { PrivateRoute } from "./PrivateRoute";
+import MainLayout from "./features/dashboard/views/MainLayout";
 
 function App() {
   return (
@@ -12,7 +13,7 @@ function App() {
           path="/*"
           element={
             <PrivateRoute>
-              <div>Protected App Content</div>
+              <MainLayout />
             </PrivateRoute>
           }
         />

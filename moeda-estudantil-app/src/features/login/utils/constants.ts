@@ -16,6 +16,7 @@ export const LOGIN_PAGE_TEXTS = {
   unexpectedError: "Ocorreu um erro inesperado.",
 };
 
-export const mutationKeys = {
+export const MUTATION_QUERY_KEYS = {
   login: ["login"],
+  loadUserInfo: ["loadUserInfo"],
 };
