@@ -13,6 +13,8 @@ import {
   TextField,
   Button,
   IconButton,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
@@ -45,6 +47,12 @@ const InstitutionsPage: FC = () => {
   const [editing, setEditing] = useState<IInstitution | null>(null);
   const [instName, setInstName] = useState("");
 
+  const [snackbar, setSnackbar] = useState<{
+    open: boolean;
+    message: string;
+    severity: "success" | "error";
+  }>({ open: false, message: "", severity: "success" });
+
   const { data: institutions, refetch } = useLoadInstitutions(
     page + 1,
     limit,
@@ -54,8 +62,10 @@ const InstitutionsPage: FC = () => {
   const items = institutions?.items ?? [];
   const total = institutions?.total ?? 0;
 
-  const { mutateAsync: createInstitution } = useCreateInstitution();
-  const { mutateAsync: updateInstitution } = useUpdateInstitution();
+  const { mutateAsync: createInstitution, isPending: isCreating } =
+    useCreateInstitution();
+  const { mutateAsync: updateInstitution, isPending: isUpdating } =
+    useUpdateInstitution();
 
   const handleCreate = () => {
     setEditing(null);
@@ -70,13 +80,45 @@ const InstitutionsPage: FC = () => {
   };
 
   const handleSave = async () => {
-    if (editing) {
-      await updateInstitution({ id: editing.id, newInstitutionName: instName });
-    } else {
-      await createInstitution(instName);
+    try {
+      if (!instName.trim()) {
+        setSnackbar({
+          open: true,
+          message: "O nome da instituição não pode estar vazio.",
+          severity: "error",
+        });
+        return;
+      }
+
+      if (editing) {
+        await updateInstitution({
+          id: editing.id,
+          newInstitutionName: instName,
+        });
+        setSnackbar({
+          open: true,
+          message: "Instituição atualizada com sucesso!",
+          severity: "success",
+        });
+      } else {
+        await createInstitution(instName);
+        setSnackbar({
+          open: true,
+          message: "Instituição criada com sucesso!",
+          severity: "success",
+        });
+      }
+
+      setOpenModal(false);
+      await refetch();
+    } catch (error) {
+      console.error(error);
+      setSnackbar({
+        open: true,
+        message: "Ocorreu um erro. Tente novamente.",
+        severity: "error",
+      });
     }
-    setOpenModal(false);
-    await refetch();
   };
 
   return (
@@ -200,11 +242,30 @@ const InstitutionsPage: FC = () => {
           <Button onClick={() => setOpenModal(false)}>
             {INSTITUTIONS_PAGE_TEXT.modal.cancel}
           </Button>
-          <Button variant="contained" onClick={handleSave}>
+          <Button
+            variant="contained"
+            onClick={handleSave}
+            loading={isCreating || isUpdating}
+          >
             {INSTITUTIONS_PAGE_TEXT.modal.save}
           </Button>
         </DialogActions>
       </Dialog>
+
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={4000}
+        onClose={() => setSnackbar((prev) => ({ ...prev, open: false }))}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      >
+        <Alert
+          onClose={() => setSnackbar((prev) => ({ ...prev, open: false }))}
+          severity={snackbar.severity}
+          sx={{ width: "100%" }}
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 };
