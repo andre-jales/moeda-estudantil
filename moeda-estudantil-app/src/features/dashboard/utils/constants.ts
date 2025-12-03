@@ -1,9 +1,10 @@
-import SchoolIcon from "@mui/icons-material/School";
+import GroupIcon from "@mui/icons-material/Group";
 import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
 import BusinessIcon from "@mui/icons-material/Business";
-import PeopleIcon from "@mui/icons-material/People";
+import BadgeIcon from "@mui/icons-material/Badge";
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import type { TUserRole } from "../../login/types/TUserRole";
 
 export interface MenuItem {
@@ -50,18 +51,23 @@ export const MENU_ITEMS: Record<TUserRole, MenuItem[]> = {
   ADMIN: [
     {
       label: "Gerenciar Alunos",
-      icon: SchoolIcon,
+      icon: GroupIcon,
       path: "/alunos",
     },
     {
       label: "Gerenciar Professores",
-      icon: PeopleIcon,
+      icon: BadgeIcon,
       path: "/professores",
     },
     {
       label: "Gerenciar Empresas",
       icon: BusinessIcon,
       path: "/empresas",
+    },
+    {
+      label: "Gerenciar Instituições",
+      icon: AccountBalanceIcon,
+      path: "/instituicoes",
     },
   ],
 };

@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
-import { BrowserApi } from "./shared/BrowserApi/BrowserApi";
-import { useLoginSlice } from "./features/login/hooks/useLoginSlice";
-import { useLoadUserInfo } from "./features/login/hooks/useLoadUserInfo";
+import { BrowserApi } from "../../../shared/BrowserApi/BrowserApi";
+import { useLoginSlice } from "../../login/hooks/useLoginSlice";
+import { useLoadUserInfo } from "../../login/hooks/useLoadUserInfo";
 
 export const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
   const token = BrowserApi.getToken();

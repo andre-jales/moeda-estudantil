@@ -37,6 +37,8 @@ export class InstitutionsController {
   }
 
   @Post()
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
   createInstitution(@Body() createInstitutionDTO: CreateInstitutionDTO) {
     return this.institutionsService.createInstitution(
       createInstitutionDTO.name,
@@ -44,6 +46,8 @@ export class InstitutionsController {
   }
 
   @Put(':id')
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
   updateInstitution(
     @Param('id') id: string,
     @Body() updateInstitutionDTO: CreateInstitutionDTO,
