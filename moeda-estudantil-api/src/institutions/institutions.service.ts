@@ -5,14 +5,31 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class InstitutionsService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  getInstitutions(page?: number, limit?: number, name?: string) {
-    return this.prismaService.institution.findMany({
-      take: limit,
-      skip: page && limit ? (page - 1) * limit : undefined,
-      where: {
-        name: { contains: name, mode: 'insensitive' },
-      },
-    });
+  async getInstitutions(page = 1, limit = 10, name?: string) {
+    const [items, total] = await Promise.all([
+      this.prismaService.institution.findMany({
+        take: limit,
+        skip: (page - 1) * limit,
+        where: {
+          name: { contains: name, mode: 'insensitive' },
+        },
+        orderBy: { name: 'asc' },
+      }),
+
+      this.prismaService.institution.count({
+        where: {
+          name: { contains: name, mode: 'insensitive' },
+        },
+      }),
+    ]);
+
+    return {
+      items,
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+    };
   }
 
   getInstitutionById(id: string) {
