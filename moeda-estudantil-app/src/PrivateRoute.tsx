@@ -34,7 +34,18 @@ export const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
   }
 
   if (!authenticatedUser || isLoading) {
-    return <CircularProgress />;
+    return (
+      <div
+        style={{
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <CircularProgress />
+      </div>
+    );
   }
 
   if (error) {
