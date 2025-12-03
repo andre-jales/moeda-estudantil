@@ -1,6 +1,19 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Put,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { CreateStudentDTO } from './dto/create-student-dto';
 import { UsersService } from './users.service';
+import { AuthGuard } from 'src/auth/auth.guard';
+import { RolesGuard } from 'src/common/guards/roles.guard';
+import { Roles } from 'src/common/decorators/roles.decorator';
+import { GetAllStudentsDTO } from './dto/get-all-students.dto';
 
 @Controller('users')
 export class UsersController {
@@ -9,5 +22,29 @@ export class UsersController {
   @Post('student')
   createStudent(@Body() createStudentDTO: CreateStudentDTO) {
     return this.usersService.createStudent(createStudentDTO);
+  }
+
+  @Get('student')
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles('ADMIN')
+  getStudents(@Query() query: GetAllStudentsDTO) {
+    return this.usersService.getStudents(query.page, query.limit, query.name);
+  }
+
+  @Get('student/:id')
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles('ADMIN')
+  getStudentById(@Param('id') id: string) {
+    return this.usersService.getStudentById(id);
+  }
+
+  @Put(':id')
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles('ADMIN')
+  updateStudent(
+    @Param('id') id: string,
+    @Body() updateStudentDTO: CreateStudentDTO,
+  ) {
+    return this.usersService.updateStudent(id, updateStudentDTO);
   }
 }
