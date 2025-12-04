@@ -21,8 +21,6 @@ export class InstitutionsController {
   constructor(private readonly institutionsService: InstitutionsService) {}
 
   @Get()
-  @UseGuards(AuthGuard, RolesGuard)
-  @Roles(Role.ADMIN)
   getInstitutions(@Query() query: GetAllInstitutionsDTO) {
     return this.institutionsService.getInstitutions(
       query.page,

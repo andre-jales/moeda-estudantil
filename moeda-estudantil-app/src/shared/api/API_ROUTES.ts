@@ -7,5 +7,6 @@ export const API_ROUTES = {
   CREATE_INSTITUTION: "/institutions",
   GET_STUDENTS: "/users/student",
   GET_STUDENT_BY_ID: "/users/student/{id}",
+  CREATE_STUDENT: "/users/student",
   UPDATE_STUDENT: "/users/{id}",
 };

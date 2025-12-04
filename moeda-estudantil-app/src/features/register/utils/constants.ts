@@ -5,3 +5,10 @@ export const REGISTER_SELECT_PAGE_TEXTS = {
   companyButton: "Sou Empresa",
   backButton: "Voltar ao Login",
 };
+
+export const REGISTER_STUDENT_PAGE_TEXTS = {
+  title: "Cadastro de Aluno",
+  subtitle: "Preencha os dados do aluno",
+  submitButton: "Cadastrar Aluno",
+  backButton: "Voltar",
+};

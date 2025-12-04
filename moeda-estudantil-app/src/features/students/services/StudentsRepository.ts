@@ -1,5 +1,6 @@
 import type { AxiosInstance } from "axios";
 import type {
+  ICreateStudent,
   IGetStudentsParams,
   IGetStudentsResponse,
   IStudent,
@@ -31,6 +32,15 @@ export class StudentsRepository implements IStudentsRepository {
     const url = API_ROUTES.GET_STUDENTS + pageAndSkipQuery + nameQuery;
 
     const response = await this.api.get<IGetStudentsResponse>(url);
+
+    return response.data;
+  }
+
+  async createStudent(student: ICreateStudent): Promise<IStudent | null> {
+    const response = await this.api.post<IStudent>(
+      API_ROUTES.CREATE_STUDENT,
+      student
+    );
 
     return response.data;
   }

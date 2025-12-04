@@ -15,6 +15,26 @@ export class StudentsManager {
     return this.repository.getStudentById(id);
   }
 
+  createStudent(
+    email: string,
+    password: string,
+    name: string,
+    cpf: string,
+    address: string,
+    course: string,
+    institutionId: string
+  ) {
+    return this.repository.createStudent({
+      email,
+      password,
+      name,
+      cpf,
+      address,
+      course,
+      institutionId,
+    });
+  }
+
   updateStudent(
     id: string,
     name: string,

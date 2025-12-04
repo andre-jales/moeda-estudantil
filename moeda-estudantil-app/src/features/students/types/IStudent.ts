@@ -10,6 +10,16 @@ export interface IStudent {
   createdAt: Date;
 }
 
+export interface ICreateStudent {
+  email: string;
+  password: string;
+  name: string;
+  cpf: string;
+  address: string;
+  course: string;
+  institutionId: string;
+}
+
 export interface IUpdatedStudent {
   id: string;
   name: string;
