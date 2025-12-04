@@ -6,7 +6,7 @@ export const useCreateStudent = () => {
   const { isPending, error, mutate, mutateAsync } = useMutation({
     mutationKey: ["create-student"],
     mutationFn: async (data: ICreateStudent) => {
-      studentsManagerInstance.createStudent(
+      await studentsManagerInstance.createStudent(
         data.email,
         data.password,
         data.name,

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, type FC } from "react";
 import {
   Typography,
   TextField,
@@ -7,6 +7,7 @@ import {
   CircularProgress,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+
 import {
   Card,
   Container,
@@ -15,18 +16,26 @@ import {
   Title,
   BackButton,
 } from "./styles/RegisterStudentPage.styled";
+
 import { REGISTER_STUDENT_PAGE_TEXTS } from "../utils/constants";
 import { useLoadInstitutions } from "../../institutions/hooks/useLoadInstitutions";
 import { useCreateStudent } from "../../students/hooks/useCreateStudent";
+
 import {
   isValidCpf,
   isValidEmail,
   formatCpf,
 } from "../../../shared/utils/helperFunctions";
 
-const RegisterStudentPage = () => {
+import SuccessScreen from "./SuccessScreen";
+import ErrorScreen from "./ErrorScreen";
+
+const RegisterStudentPage: FC = () => {
   const navigate = useNavigate();
   const { mutateAsync: createStudent, isPending } = useCreateStudent();
+
+  const [status, setStatus] = useState<"form" | "success" | "error">("form");
+
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -37,10 +46,11 @@ const RegisterStudentPage = () => {
     institutionId: "",
   });
 
-  const [error, setError] = useState<string | null>(null);
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [institutionSearch, setInstitutionSearch] = useState("");
-  const [page] = useState(1);
-  const [limit] = useState(20);
+
+  const page = 1;
+  const limit = 20;
 
   const {
     data: institutionsData,
@@ -56,39 +66,90 @@ const RegisterStudentPage = () => {
     if (institutionSearch.length >= 3) refetch();
   }, [institutionSearch, refetch]);
 
+  const validateField = (field: string, value: string) => {
+    let message = "";
+
+    switch (field) {
+      case "name":
+        if (!value.trim()) message = "Nome é obrigatório.";
+        break;
+
+      case "email":
+        if (!value.trim()) message = "Email é obrigatório.";
+        else if (!isValidEmail(value)) message = "Email inválido.";
+        break;
+
+      case "password":
+        if (value.length < 6)
+          message = "A senha deve ter pelo menos 6 caracteres.";
+        break;
+
+      case "cpf":
+        if (!value) message = "CPF é obrigatório.";
+        else if (!isValidCpf(value)) message = "CPF inválido.";
+        break;
+
+      case "address":
+        if (!value.trim()) message = "Endereço é obrigatório.";
+        break;
+
+      case "course":
+        if (!value.trim()) message = "Curso é obrigatório.";
+        break;
+
+      case "institutionId":
+        if (!value) message = "Selecione uma instituição.";
+        break;
+    }
+
+    setErrors((prev) => ({ ...prev, [field]: message }));
+  };
+
   const handleChange = (field: keyof typeof form, value: string) => {
     if (field === "cpf") {
-      value = formatCpf(value.replace(/\D/g, ""));
+      const onlyNumbers = value.replace(/\D/g, "");
+      setForm((prev) => ({ ...prev, cpf: onlyNumbers }));
+      validateField("cpf", onlyNumbers);
+      return;
     }
+
     setForm((prev) => ({ ...prev, [field]: value }));
+    validateField(field, value);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError(null);
 
-    if (
-      !form.name ||
-      !form.email ||
-      !form.password ||
-      !form.cpf ||
-      !form.address ||
-      !form.course ||
-      !form.institutionId
-    ) {
-      return setError("Preencha todos os campos.");
-    }
+    Object.entries(form).forEach(([k, v]) => validateField(k, v));
 
-    if (!isValidEmail(form.email)) return setError("Email inválido.");
-    if (!isValidCpf(form.cpf)) return setError("CPF inválido.");
+    const hasErrors = Object.values(errors).some((e) => e);
+    const hasEmpty = Object.values(form).some((v) => !v);
+
+    if (hasErrors || hasEmpty) return;
 
     try {
       await createStudent(form);
-      navigate("/login");
+      setStatus("success");
     } catch {
-      setError("Erro ao cadastrar o aluno.");
+      setStatus("error");
     }
   };
+
+  if (status === "success") {
+    return (
+      <Container>
+        <SuccessScreen />
+      </Container>
+    );
+  }
+
+  if (status === "error") {
+    return (
+      <Container>
+        <ErrorScreen />
+      </Container>
+    );
+  }
 
   return (
     <Container>
@@ -110,6 +171,8 @@ const RegisterStudentPage = () => {
                 onChange={(e) => handleChange("name", e.target.value)}
                 fullWidth
                 required
+                error={!!errors.name}
+                helperText={errors.name}
               />
             </Grid>
 
@@ -121,6 +184,8 @@ const RegisterStudentPage = () => {
                 onChange={(e) => handleChange("email", e.target.value)}
                 fullWidth
                 required
+                error={!!errors.email}
+                helperText={errors.email}
               />
             </Grid>
 
@@ -132,16 +197,20 @@ const RegisterStudentPage = () => {
                 onChange={(e) => handleChange("password", e.target.value)}
                 fullWidth
                 required
+                error={!!errors.password}
+                helperText={errors.password}
               />
             </Grid>
 
             <Grid size={{ xs: 12, sm: 6 }}>
               <TextField
                 label="CPF"
-                value={form.cpf}
+                value={formatCpf(form.cpf)}
                 onChange={(e) => handleChange("cpf", e.target.value)}
                 fullWidth
                 required
+                error={!!errors.cpf}
+                helperText={errors.cpf}
               />
             </Grid>
 
@@ -152,6 +221,8 @@ const RegisterStudentPage = () => {
                 onChange={(e) => handleChange("address", e.target.value)}
                 fullWidth
                 required
+                error={!!errors.address}
+                helperText={errors.address}
               />
             </Grid>
 
@@ -162,6 +233,8 @@ const RegisterStudentPage = () => {
                 onChange={(e) => handleChange("course", e.target.value)}
                 fullWidth
                 required
+                error={!!errors.course}
+                helperText={errors.course}
               />
             </Grid>
 
@@ -172,15 +245,18 @@ const RegisterStudentPage = () => {
                 noOptionsText={"Instituição não encontrada"}
                 loading={isLoading}
                 onInputChange={(_, value) => setInstitutionSearch(value)}
-                onChange={(_, value) =>
-                  handleChange("institutionId", value?.id || "")
-                }
+                onChange={(_, value) => {
+                  const id = value?.id || "";
+                  handleChange("institutionId", id);
+                }}
                 renderInput={(params) => (
                   <TextField
                     {...params}
                     label="Instituição"
                     fullWidth
                     required
+                    error={!!errors.institutionId}
+                    helperText={errors.institutionId}
                     slotProps={{
                       input: {
                         ...params.InputProps,
@@ -197,12 +273,6 @@ const RegisterStudentPage = () => {
               />
             </Grid>
           </Grid>
-
-          {error && (
-            <Typography color="error" variant="body2" mt={1}>
-              {error}
-            </Typography>
-          )}
 
           <SubmitButton
             type="submit"

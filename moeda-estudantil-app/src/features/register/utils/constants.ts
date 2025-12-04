@@ -12,3 +12,19 @@ export const REGISTER_STUDENT_PAGE_TEXTS = {
   submitButton: "Cadastrar Aluno",
   backButton: "Voltar",
 };
+
+export const FEEDBACK_SCREENS_TEXTS = {
+  SUCCESS: {
+    TITLE: "Cadastro realizado!",
+    DESCRIPTION:
+      "Seu cadastro foi concluído com sucesso. Agora você já pode fazer login na plataforma.",
+    BUTTON: "Ir para Login",
+  },
+
+  ERROR: {
+    TITLE: "Ocorreu um erro",
+    DESCRIPTION:
+      "Não foi possível concluir seu cadastro. Por favor, revise os dados ou tente novamente mais tarde.",
+    BUTTON: "Voltar para o formulário",
+  },
+};
