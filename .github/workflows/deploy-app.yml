@@ -20,10 +20,10 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd autotrix-app
+          cd moeda-estudantil-app
           npm ci
 
       - name: Build & Deploy
         run: |
-          cd autotrix-app
+          cd moeda-estudantil-app
           npm run deploy
