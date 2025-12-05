@@ -31,15 +31,17 @@ jobs:
           node-version: 24
 
       - name: Install dependencies
+        working-directory: ./moeda-estudantil-app
         run: npm ci
 
       - name: Build project
+        working-directory: ./moeda-estudantil-app
         run: npm run build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist
+          path: ./moeda-estudantil-app/dist
 
       - name: Deploy to GitHub Pages
         id: deployment
