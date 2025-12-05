@@ -1,4 +1,4 @@
-name: Deploy NestJS to VM
+name: Deploy Api
 
 on:
   push:
