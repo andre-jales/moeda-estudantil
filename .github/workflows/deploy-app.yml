@@ -1,29 +1,36 @@
-name: Deploy app
+name: Deploy App
 
 on:
   push:
-    branches: ["main"]
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 24
+          cache: "npm"
 
       - name: Install dependencies
+        working-directory: ./moeda-estudantil-app
+        run: npm ci
+
+      - name: Configure git identity
         run: |
-          cd moeda-estudantil-app
-          npm ci
+          git config --global user.email "github-actions@github.com"
+          git config --global user.name "Github Actions"
 
       - name: Build & Deploy
-        run: |
-          cd moeda-estudantil-app
-          npm run deploy
+        working-directory: ./moeda-estudantil-app
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run deploy
