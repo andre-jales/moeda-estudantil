@@ -30,6 +30,11 @@ jobs:
         with:
           node-version: 24
 
+      - name: Create .env
+        working-directory: ./moeda-estudantil-app
+        run: |
+          echo "VITE_API_URL=${{ secrets.API_URL }}" > .env
+
       - name: Install dependencies
         working-directory: ./moeda-estudantil-app
         run: npm ci
