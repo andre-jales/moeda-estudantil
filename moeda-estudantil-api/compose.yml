@@ -1,7 +1,7 @@
 services:
   moeda-estudantil-api:
     build: .
-    container_name: nest_api
+    container_name: moeda-estudantil-api
     restart: always
     ports:
       - '3000:3000'
@@ -12,7 +12,7 @@ services:
 
   moeda-estudantil-db:
     image: postgres
-    container_name: postgres_db
+    container_name: moeda-estudantil-db
     restart: always
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
