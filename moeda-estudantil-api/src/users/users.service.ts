@@ -4,6 +4,7 @@ import { CreateStudentDTO } from './dto/create-student-dto';
 import { hashPassword } from 'src/common/utils/password.utils';
 import { Role } from 'generated/prisma/enums';
 import { UpdateStudentDTO } from './dto/update-student-dto';
+import { CreateCompanyDto } from './dto/create-company-dto';
 
 @Injectable()
 export class UsersService {
@@ -188,7 +189,61 @@ export class UsersService {
 
   async createTeacher() {}
 
-  async createCompany() {}
+  async createCompany(company: CreateCompanyDto) {
+    const { email, password, name, cnpj } = company;
+
+    const hashedPassword = await hashPassword(password);
+
+    const userData = {
+      email,
+      password: hashedPassword,
+      role: Role.COMPANY,
+    };
+
+    const companyData = {
+      name,
+      cnpj,
+    };
+
+    const createdCompany = await this.prismaService.company.create({
+      data: {
+        ...companyData,
+        user: {
+          create: userData,
+        },
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            email: true,
+            createdAt: true,
+            updatedAt: true,
+            role: true,
+          },
+        },
+      },
+    });
+
+    return {
+      id: createdCompany.user.id,
+      email: createdCompany.user.email,
+      role: createdCompany.user.role,
+      createdAt: createdCompany.user.createdAt,
+      updatedAt: createdCompany.user.updatedAt,
+      name: createdCompany.name,
+      cnpj: createdCompany.cnpj,
+    };
+  }
+
+  async approveCompany(id: string) {
+    const updatedCompany = await this.prismaService.company.update({
+      where: { userId: id },
+      data: { approved: true },
+    });
+
+    return updatedCompany;
+  }
 
   async findByEmail(email: string) {
     return this.prismaService.user.findUnique({ where: { email } });

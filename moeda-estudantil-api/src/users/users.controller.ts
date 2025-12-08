@@ -15,6 +15,7 @@ import { RolesGuard } from 'src/common/guards/roles.guard';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { GetAllStudentsDTO } from './dto/get-all-students.dto';
 import { UpdateStudentDTO } from './dto/update-student-dto';
+import { CreateCompanyDto } from './dto/create-company-dto';
 
 @Controller('users')
 export class UsersController {
@@ -37,6 +38,18 @@ export class UsersController {
   @Roles('ADMIN')
   getStudentById(@Param('id') id: string) {
     return this.usersService.getStudentById(id);
+  }
+
+  @Post('company')
+  createCompany(@Body() newCompanyData: CreateCompanyDto) {
+    return this.usersService.createCompany(newCompanyData);
+  }
+
+  @Put('company/approve/:id')
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles('ADMIN')
+  approveCompany(@Param('id') id: string) {
+    return this.usersService.approveCompany(id);
   }
 
   @Put(':id')
