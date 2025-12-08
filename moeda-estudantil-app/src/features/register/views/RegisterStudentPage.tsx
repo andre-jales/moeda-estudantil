@@ -19,7 +19,6 @@ import {
 
 import { REGISTER_STUDENT_PAGE_TEXTS } from "../utils/constants";
 import { useLoadInstitutions } from "../../institutions/hooks/useLoadInstitutions";
-import { useCreateStudent } from "../../students/hooks/useCreateStudent";
 
 import {
   isValidCpf,
@@ -29,6 +28,7 @@ import {
 
 import SuccessScreen from "./SuccessScreen";
 import ErrorScreen from "./ErrorScreen";
+import { useCreateStudent } from "../hooks/useCreateStudent";
 
 const RegisterStudentPage: FC = () => {
   const navigate = useNavigate();

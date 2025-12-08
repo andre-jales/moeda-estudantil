@@ -9,4 +9,5 @@ export const API_ROUTES = {
   GET_STUDENT_BY_ID: "/users/student/{id}",
   CREATE_STUDENT: "/users/student",
   UPDATE_STUDENT: "/users/{id}",
+  CREATE_COMPANY: "/users/company",
 };

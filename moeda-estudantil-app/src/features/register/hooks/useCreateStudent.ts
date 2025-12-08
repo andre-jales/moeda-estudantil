@@ -1,12 +1,12 @@
 import { useMutation } from "@tanstack/react-query";
-import type { ICreateStudent } from "../types/IStudent";
-import studentsManagerInstance from "../services";
+import type { ICreateStudent } from "../../students/types/IStudent";
+import registerManagerInstance from "../services";
 
 export const useCreateStudent = () => {
   const { isPending, error, mutate, mutateAsync } = useMutation({
     mutationKey: ["create-student"],
     mutationFn: async (data: ICreateStudent) => {
-      await studentsManagerInstance.createStudent(
+      await registerManagerInstance.createStudent(
         data.email,
         data.password,
         data.name,
