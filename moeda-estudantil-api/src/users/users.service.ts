@@ -471,6 +471,7 @@ export class UsersService {
         id: true,
         role: true,
         email: true,
+        isActive: true,
         createdAt: true,
         updatedAt: true,
         company: true,

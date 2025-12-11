@@ -12,7 +12,8 @@ export const LOGIN_PAGE_TEXTS = {
   invalidEmailError: "E-mail inválido.",
   fillEmailError: "Preencha o e-mail.",
   fillPasswordError: "Preencha a senha.",
-  invalidCredentialsError: "E-mail ou senha inválidos.",
+  invalidCredentialsError:
+    "Não foi possível entrar. Verifique seus dados ou entre em contato com o suporte.",
   unexpectedError: "Ocorreu um erro inesperado.",
 };
 

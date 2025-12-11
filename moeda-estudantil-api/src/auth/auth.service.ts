@@ -17,7 +17,7 @@ export class AuthService {
   ): Promise<{ access_token: string }> {
     const user = await this.usersService.findByEmail(email);
 
-    if (!user) {
+    if (!user || !user.isActive) {
       throw new UnauthorizedException();
     }
 
