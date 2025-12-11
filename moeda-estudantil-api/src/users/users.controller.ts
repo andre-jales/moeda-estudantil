@@ -16,7 +16,6 @@ import { Roles } from 'src/common/decorators/roles.decorator';
 import { GetAllStudentsDTO } from './dto/get-all-students.dto';
 import { UpdateStudentDTO } from './dto/update-student-dto';
 import { CreateCompanyDto } from './dto/create-company-dto';
-import { CreateTeacherDTO } from './dto/create-teacher-dto';
 import { UpdateCompanyDto } from './dto/update-company-dto';
 
 @Controller('users')
@@ -83,30 +82,5 @@ export class UsersController {
     @Body() updateCompanyDTO: UpdateCompanyDto,
   ) {
     return this.usersService.updateCompany(id, updateCompanyDTO);
-  }
-
-  @Post('teacher')
-  @UseGuards(AuthGuard, RolesGuard)
-  @Roles('ADMIN')
-  createTeacher(@Body() createTeacherDTO: CreateTeacherDTO) {
-    return this.usersService.createTeacher(createTeacherDTO);
-  }
-
-  @Get('teacher')
-  @UseGuards(AuthGuard, RolesGuard)
-  @Roles('ADMIN')
-  getTeachers(
-    @Query('page') page?: number,
-    @Query('limit') limit?: number,
-    @Query('name') name?: string,
-  ) {
-    return this.usersService.getTeachers(page, limit, name);
-  }
-
-  @Get('teacher/:id')
-  @UseGuards(AuthGuard, RolesGuard)
-  @Roles('ADMIN')
-  getTeacherById(@Param('id') id: string) {
-    return this.usersService.getTeacherById(id);
   }
 }

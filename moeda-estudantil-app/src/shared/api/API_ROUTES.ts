@@ -13,4 +13,8 @@ export const API_ROUTES = {
   GET_COMPANIES: "/users/company",
   GET_COMPANY_BY_ID: "/users/company/{id}",
   UPDATE_COMPANY: "/users/company/{id}",
+  GET_TEACHERS: "/teachers",
+  GET_TEACHER_BY_ID: "/teachers/{id}",
+  CREATE_TEACHER: "/teachers",
+  UPDATE_TEACHER: "/teachers/{id}",
 };

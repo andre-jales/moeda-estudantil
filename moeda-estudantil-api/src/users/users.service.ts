@@ -5,7 +5,6 @@ import { hashPassword } from 'src/common/utils/password.utils';
 import { Role } from 'generated/prisma/enums';
 import { UpdateStudentDTO } from './dto/update-student-dto';
 import { CreateCompanyDto } from './dto/create-company-dto';
-import { CreateTeacherDTO } from './dto/create-teacher-dto';
 import { UpdateCompanyDto } from './dto/update-company-dto';
 
 @Injectable()
@@ -371,108 +370,6 @@ export class UsersService {
       name: updatedCompany.name,
       cnpj: updatedCompany.cnpj,
       isActive: updatedUser.isActive,
-    };
-  }
-
-  async createTeacher(createTeacherDTO: CreateTeacherDTO) {
-    const { email, password, institutionId, ...teacherInfo } = createTeacherDTO;
-
-    const hashedPassword = await hashPassword(password);
-
-    const userData = {
-      email,
-      password: hashedPassword,
-      role: Role.TEACHER,
-    };
-
-    const teacherData = {
-      ...teacherInfo,
-      institution: {
-        connect: { id: institutionId },
-      },
-      user: {
-        create: userData,
-      },
-    };
-
-    const createdTeacher = await this.prismaService.teacher.create({
-      data: teacherData,
-      include: {
-        user: {
-          select: {
-            id: true,
-            email: true,
-            role: true,
-            createdAt: true,
-            updatedAt: true,
-          },
-        },
-      },
-    });
-
-    return createdTeacher;
-  }
-
-  async getTeachers(page = 1, limit = 10, name?: string) {
-    const teachers = await this.prismaService.teacher.findMany({
-      take: limit,
-      skip: (page - 1) * limit,
-      where: {
-        name: name ? { contains: name, mode: 'insensitive' } : undefined,
-      },
-      select: {
-        name: true,
-        user: {
-          select: {
-            id: true,
-            email: true,
-            role: true,
-            createdAt: true,
-            updatedAt: true,
-          },
-        },
-      },
-      orderBy: { name: 'asc' },
-    });
-
-    return teachers.map((teacher) => ({
-      id: teacher.user.id,
-      email: teacher.user.email,
-      role: teacher.user.role,
-      createdAt: teacher.user.createdAt,
-      updatedAt: teacher.user.updatedAt,
-      name: teacher.name,
-    }));
-  }
-
-  async getTeacherById(id: string) {
-    const teacher = await this.prismaService.teacher.findUnique({
-      where: { userId: id },
-      select: {
-        name: true,
-        user: {
-          select: {
-            id: true,
-            email: true,
-            role: true,
-            createdAt: true,
-            updatedAt: true,
-          },
-        },
-      },
-    });
-
-    if (!teacher) {
-      return null;
-    }
-
-    return {
-      id: teacher.user.id,
-      email: teacher.user.email,
-      role: teacher.user.role,
-      createdAt: teacher.user.createdAt,
-      updatedAt: teacher.user.updatedAt,
-      name: teacher.name,
     };
   }
 

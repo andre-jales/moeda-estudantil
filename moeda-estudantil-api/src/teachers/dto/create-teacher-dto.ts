@@ -1,7 +1,7 @@
 import { IsNotEmpty, IsString, Length } from 'class-validator';
-import { UpdateUserDTO } from './update-user.dto';
+import { CreateUserDTO } from '../../users/dto/create-user.dto';
 
-export class UpdateTeacherDTO extends UpdateUserDTO {
+export class CreateTeacherDTO extends CreateUserDTO {
   @IsString({ message: 'Name must be a string' })
   @IsNotEmpty({ message: 'Name is required' })
   name: string;
