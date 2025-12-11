@@ -287,6 +287,7 @@ const TeachersPage: FC = () => {
         <TableCell>{t.name}</TableCell>
         <TableCell>{t.email}</TableCell>
         <TableCell>{t.institutionName}</TableCell>
+        <TableCell>{t.balance}</TableCell>
         <TableCell>{t.isActive ? "Ativo" : "Inativo"}</TableCell>
         <TableCell align="right">
           <Tooltip title="Editar professor" arrow>
@@ -334,6 +335,7 @@ const TeachersPage: FC = () => {
                 <TableCell>{TEACHERS_PAGE_TEXT.table.name}</TableCell>
                 <TableCell>{TEACHERS_PAGE_TEXT.table.email}</TableCell>
                 <TableCell>{TEACHERS_PAGE_TEXT.table.institution}</TableCell>
+                <TableCell>{TEACHERS_PAGE_TEXT.table.balance}</TableCell>
                 <TableCell>{TEACHERS_PAGE_TEXT.table.status}</TableCell>
                 <TableCell align="right">
                   {TEACHERS_PAGE_TEXT.table.actions}

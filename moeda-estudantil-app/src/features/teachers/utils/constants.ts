@@ -23,6 +23,7 @@ export const TEACHERS_PAGE_TEXT = {
     institution: "Instituição",
     status: "Status",
     actions: "Ações",
+    balance: "Saldo",
     empty: "Nenhum professor encontrado.",
   },
   pagination: {
