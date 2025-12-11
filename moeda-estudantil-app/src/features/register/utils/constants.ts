@@ -13,6 +13,13 @@ export const REGISTER_STUDENT_PAGE_TEXTS = {
   backButton: "Voltar",
 };
 
+export const REGISTER_COMPANY_PAGE_TEXTS = {
+  title: "Cadastro de Empresa",
+  subtitle: "Preencha os dados da empresa",
+  submitButton: "Cadastrar Empresa",
+  backButton: "Voltar",
+};
+
 export const FEEDBACK_SCREENS_TEXTS = {
   SUCCESS: {
     TITLE: "Cadastro realizado!",
