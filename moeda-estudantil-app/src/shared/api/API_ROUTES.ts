@@ -8,7 +8,7 @@ export const API_ROUTES = {
   GET_STUDENTS: "/users/student",
   GET_STUDENT_BY_ID: "/users/student/{id}",
   CREATE_STUDENT: "/users/student",
-  UPDATE_STUDENT: "/users/{id}",
+  UPDATE_STUDENT: "/users/student/{id}",
   CREATE_COMPANY: "/users/company",
   GET_COMPANIES: "/users/company",
   GET_COMPANY_BY_ID: "/users/company/{id}",

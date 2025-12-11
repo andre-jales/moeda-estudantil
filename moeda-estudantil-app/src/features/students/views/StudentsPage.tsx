@@ -16,6 +16,8 @@ import {
   Snackbar,
   Alert,
   Tooltip,
+  Switch,
+  FormControlLabel,
 } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import EditIcon from "@mui/icons-material/Edit";
@@ -59,6 +61,7 @@ const StudentsPage: FC = () => {
   const [course, setCourse] = useState("");
   const [email, setEmail] = useState("");
   const [institutionId, setInstitutionId] = useState("");
+  const [isActive, setIsActive] = useState(true);
 
   const [selectedInstitution, setSelectedInstitution] =
     useState<IInstitution | null>(null);
@@ -148,6 +151,7 @@ const StudentsPage: FC = () => {
     validateField("course", student.course);
 
     setInstitutionId(student.institutionId);
+    setIsActive(student.isActive);
 
     const institution =
       (institutionsData?.items ?? []).find(
@@ -191,6 +195,7 @@ const StudentsPage: FC = () => {
         address,
         course,
         institutionId,
+        isActive,
       });
 
       setSnackbar({
@@ -226,6 +231,7 @@ const StudentsPage: FC = () => {
         <TableCell>{s.email}</TableCell>
         <TableCell>{s.course}</TableCell>
         <TableCell>{s.institutionName}</TableCell>
+        <TableCell>{s.isActive ? "Ativo" : "Inativo"}</TableCell>
         <TableCell align="right">
           <Tooltip title="Editar aluno" arrow>
             <IconButton onClick={() => handleEdit(s)}>
@@ -265,6 +271,7 @@ const StudentsPage: FC = () => {
                 <TableCell>{STUDENTS_PAGE_TEXT.table.email}</TableCell>
                 <TableCell>{STUDENTS_PAGE_TEXT.table.course}</TableCell>
                 <TableCell>{STUDENTS_PAGE_TEXT.table.institution}</TableCell>
+                <TableCell>{STUDENTS_PAGE_TEXT.table.status}</TableCell>
                 <TableCell align="right">
                   {STUDENTS_PAGE_TEXT.table.actions}
                 </TableCell>
@@ -386,6 +393,17 @@ const StudentsPage: FC = () => {
                 helperText={errors.institution}
               />
             )}
+          />
+
+          <FormControlLabel
+            sx={{ marginTop: 2 }}
+            control={
+              <Switch
+                checked={isActive}
+                onChange={(e) => setIsActive(e.target.checked)}
+              />
+            }
+            label="Ativo"
           />
         </DialogContent>
 

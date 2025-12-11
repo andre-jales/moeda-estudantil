@@ -53,6 +53,7 @@ export class StudentsRepository implements IStudentsRepository {
       address: student.address,
       course: student.course,
       institutionId: student.institutionId,
+      isActive: student.isActive,
     });
 
     return response.data;
