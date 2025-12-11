@@ -21,11 +21,21 @@ export class CompanyRewardsService {
     rewardId: string,
     dto: UpdateRewardDTO,
   ) {
+    const company = await this.prisma.company.findUnique({
+      where: { userId: companyId },
+    });
+
+    if (!company) {
+      throw new BadRequestException('Company not found');
+    }
+
     const reward = await this.prisma.reward.findUnique({
       where: { id: rewardId },
     });
-    if (!reward || reward.companyId !== companyId)
+
+    if (!reward || reward.companyId !== company.id) {
       throw new BadRequestException('Reward not found');
+    }
 
     return this.prisma.reward.update({
       where: { id: rewardId },
@@ -33,7 +43,15 @@ export class CompanyRewardsService {
     });
   }
 
-  async listRewards(companyId: string) {
-    return this.prisma.reward.findMany({ where: { companyId } });
+  async listRewards(userId: string) {
+    const company = await this.prisma.company.findUnique({
+      where: { userId },
+    });
+
+    if (!company) {
+      throw new BadRequestException('Company not found');
+    }
+
+    return this.prisma.reward.findMany({ where: { companyId: company.id } });
   }
 }

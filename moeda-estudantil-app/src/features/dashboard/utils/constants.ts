@@ -44,7 +44,12 @@ export const MENU_ITEMS: Record<TUserRole, MenuItem[]> = {
     {
       label: "Vantagens",
       icon: CardGiftcardIcon,
-      path: "/vantagens",
+      path: "/gerenciar-vantagens",
+    },
+    {
+      label: "Extrato",
+      icon: ReceiptLongIcon,
+      path: "/extrato",
     },
   ],
 

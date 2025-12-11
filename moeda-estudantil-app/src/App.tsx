@@ -10,6 +10,7 @@ import CompaniesPage from "./features/companies/views/CompaniesPage";
 import TeachersPage from "./features/teachers/views/TeachersPage";
 import DonationPage from "./features/rewards/views/DonationPage";
 import TransactionsPage from "./features/rewards/views/TransactionsPage";
+import CompanyRewardsPage from "./features/rewards/views/CompanyRewardsPage";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path="/professores" element={<TeachersPage />} />
           <Route path="/doacao" element={<DonationPage />} />
           <Route path="/extrato" element={<TransactionsPage />} />
+          <Route path="/gerenciar-vantagens" element={<CompanyRewardsPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
