@@ -198,4 +198,22 @@ export class TeachersService {
       name: updatedTeacher.name,
     };
   }
+
+  async getAllTeachersIds() {
+    return this.prismaService.teacher.findMany({
+      select: {
+        id: true,
+      },
+    });
+  }
+
+  async updateTeacherBalance(id: string, newBalance: number, date: Date) {
+    await this.prismaService.teacher.update({
+      where: { id: id },
+      data: {
+        balance: newBalance,
+        lastSemesterRewardAt: date,
+      },
+    });
+  }
 }
