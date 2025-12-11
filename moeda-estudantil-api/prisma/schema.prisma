@@ -15,6 +15,12 @@ enum Role {
   ADMIN
 }
 
+enum TransactionType {
+  DONATION
+  REWARD
+  RECHARGE
+}
+
 model User {
   id        String   @id @default(uuid())
   email     String   @unique
@@ -36,12 +42,15 @@ model Student {
   address   String
   course    String
   createdAt DateTime @default(now())
+  balance   Int      @default(0)
 
   institution   Institution @relation(fields: [institutionId], references: [id])
   institutionId String
 
   user   User   @relation(fields: [userId], references: [id])
   userId String @unique
+
+  transactions Transaction[]
 }
 
 model Teacher {
@@ -57,6 +66,8 @@ model Teacher {
 
   user   User   @relation(fields: [userId], references: [id])
   userId String @unique
+
+  transactions Transaction[]
 }
 
 model Company {
@@ -67,6 +78,8 @@ model Company {
 
   user   User   @relation(fields: [userId], references: [id])
   userId String @unique
+
+  rewards Reward[]
 }
 
 model Institution {
@@ -75,4 +88,36 @@ model Institution {
   createdAt DateTime  @default(now())
   students  Student[]
   teachers  Teacher[]
+}
+
+model Transaction {
+  id          String          @id @default(uuid())
+  amount      Int
+  description String
+  createdAt   DateTime        @default(now())
+  type        TransactionType
+
+  student   Student? @relation(fields: [studentId], references: [id])
+  studentId String?
+
+  teacher   Teacher? @relation(fields: [teacherId], references: [id])
+  teacherId String?
+
+  reward   Reward? @relation(fields: [rewardId], references: [id])
+  rewardId String?
+}
+
+model Reward {
+  id          String   @id @default(uuid())
+  name        String
+  description String
+  amount      Int
+  createdAt   DateTime @default(now())
+  imageUrl    String
+  isActive    Boolean  @default(true)
+
+  company   Company @relation(fields: [companyId], references: [id])
+  companyId String
+
+  transactions Transaction[]
 }
