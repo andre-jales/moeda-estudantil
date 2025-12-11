@@ -37,8 +37,8 @@ import {
   HeaderBottom,
   SearchField,
   TableWrapper,
-  TableContainer,
   StyledTableHead,
+  StyledTableContainer,
 } from "./styles/StudentsPage.styled";
 
 import { STUDENTS_PAGE_TEXT } from "../utils/constants";
@@ -211,6 +211,32 @@ const StudentsPage: FC = () => {
     }
   };
 
+  const renderTableData = () => {
+    if (items.length === 0) {
+      return (
+        <TableRow>
+          <TableCell colSpan={5}>{STUDENTS_PAGE_TEXT.table.empty}</TableCell>
+        </TableRow>
+      );
+    }
+
+    return items.map((s: IStudent) => (
+      <TableRow key={s.id} hover>
+        <TableCell>{s.name}</TableCell>
+        <TableCell>{s.email}</TableCell>
+        <TableCell>{s.course}</TableCell>
+        <TableCell>{s.institutionName}</TableCell>
+        <TableCell align="right">
+          <Tooltip title="Editar aluno" arrow>
+            <IconButton onClick={() => handleEdit(s)}>
+              <EditIcon />
+            </IconButton>
+          </Tooltip>
+        </TableCell>
+      </TableRow>
+    ));
+  };
+
   return (
     <Container>
       <HeaderWrapper>
@@ -230,8 +256,8 @@ const StudentsPage: FC = () => {
         </HeaderBottom>
       </HeaderWrapper>
 
-      <TableWrapper>
-        <TableContainer>
+      <TableWrapper elevation={3}>
+        <StyledTableContainer>
           <Table stickyHeader>
             <StyledTableHead>
               <TableRow>
@@ -239,38 +265,17 @@ const StudentsPage: FC = () => {
                 <TableCell>{STUDENTS_PAGE_TEXT.table.email}</TableCell>
                 <TableCell>{STUDENTS_PAGE_TEXT.table.course}</TableCell>
                 <TableCell>{STUDENTS_PAGE_TEXT.table.institution}</TableCell>
-                <TableCell align="right">Ações</TableCell>
+                <TableCell align="right">
+                  {STUDENTS_PAGE_TEXT.table.actions}
+                </TableCell>
               </TableRow>
             </StyledTableHead>
 
-            <TableBody>
-              {items.length === 0 && (
-                <TableRow>
-                  <TableCell colSpan={5}>
-                    {STUDENTS_PAGE_TEXT.table.empty}
-                  </TableCell>
-                </TableRow>
-              )}
-
-              {items.map((s: IStudent) => (
-                <TableRow key={s.id} hover>
-                  <TableCell>{s.name}</TableCell>
-                  <TableCell>{s.email}</TableCell>
-                  <TableCell>{s.course}</TableCell>
-                  <TableCell>{s.institutionName}</TableCell>
-                  <TableCell align="right">
-                    <Tooltip title="Editar aluno" arrow>
-                      <IconButton onClick={() => handleEdit(s)}>
-                        <EditIcon />
-                      </IconButton>
-                    </Tooltip>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
+            <TableBody>{renderTableData()}</TableBody>
           </Table>
-        </TableContainer>
+        </StyledTableContainer>
         <TablePagination
+          sx={{ borderTop: "1px solid #e0e0e0" }}
           component="div"
           count={total}
           page={page}

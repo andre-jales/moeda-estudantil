@@ -1,5 +1,11 @@
 import { styled } from "@mui/material/styles";
-import { Box, Paper, TextField } from "@mui/material";
+import {
+  Box,
+  Paper,
+  TableContainer,
+  TableHead,
+  TextField,
+} from "@mui/material";
 
 export const Container = styled(Box)(({ theme }) => ({
   padding: "2rem",
@@ -31,26 +37,27 @@ export const HeaderBottom = styled(Box)({
   alignItems: "center",
 });
 
-export const SearchField = styled(TextField)({
+export const SearchField = styled(TextField)(({ theme }) => ({
   width: 320,
-  backgroundColor: "white",
-});
-
-export const TableWrapper = styled(Paper)(({ theme }) => ({
-  padding: "1rem",
-  borderRadius: 12,
-  boxShadow: theme.shadows[3],
-  flexGrow: 1,
-  display: "flex",
-  flexDirection: "column",
-  minHeight: 0,
+  backgroundColor: theme.palette.background.paper,
 }));
 
-export const TableContainer = styled(Box)({
-  overflowY: "auto",
-  flexGrow: 1,
+export const TableWrapper = styled(Paper)(({ theme }) => ({
+  padding: theme.spacing(1),
+  borderRadius: 12,
+  flex: 1,
+  overflow: "hidden",
+  display: "flex",
+  flexDirection: "column",
+}));
+
+export const StyledTableContainer = styled(TableContainer)({
+  flex: 1,
+  overflow: "auto",
 });
 
-export const StyledTableHead = styled("thead")(({ theme }) => ({
-  backgroundColor: theme.palette.background.paper,
+export const StyledTableHead = styled(TableHead)(({ theme }) => ({
+  ["& .MuiTableCell-head"]: {
+    backgroundColor: theme.palette.background.paper,
+  },
 }));
