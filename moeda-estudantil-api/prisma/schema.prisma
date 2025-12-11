@@ -45,10 +45,12 @@ model Student {
 }
 
 model Teacher {
-  id        String   @id @default(uuid())
-  name      String
-  cpf       String   @unique
-  createdAt DateTime @default(now())
+  id                   String    @id @default(uuid())
+  name                 String
+  cpf                  String    @unique
+  createdAt            DateTime  @default(now())
+  balance              Int       @default(0)
+  lastSemesterRewardAt DateTime?
 
   institution   Institution @relation(fields: [institutionId], references: [id])
   institutionId String
