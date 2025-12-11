@@ -1,10 +1,14 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { Role, TransactionType } from 'generated/prisma/enums';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { RewardsEmailService } from './rewards-email.service';
 
 @Injectable()
 export class RewardsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly rewardsEmailService: RewardsEmailService,
+  ) {}
 
   async donateCoins(
     teacherId: string,
@@ -14,6 +18,7 @@ export class RewardsService {
 
     const teacher = await this.prisma.teacher.findUnique({
       where: { userId: teacherId },
+      include: { user: true },
     });
 
     if (!teacher) {
@@ -25,6 +30,7 @@ export class RewardsService {
     }
     const student = await this.prisma.student.findUnique({
       where: { userId: studentId },
+      include: { user: true },
     });
 
     if (!student) {
@@ -36,7 +42,7 @@ export class RewardsService {
         'Student does not belong to the same institution',
       );
 
-    await this.prisma.$transaction([
+    const transaction = await this.prisma.$transaction([
       this.prisma.teacher.update({
         where: { userId: teacherId },
         data: { balance: { decrement: amount } },
@@ -55,6 +61,21 @@ export class RewardsService {
         },
       }),
     ]);
+
+    await this.rewardsEmailService.sendTeacherDonationEmail(
+      student.name,
+      teacher.name,
+      teacher.user.email,
+      transaction[2].amount,
+      transaction[2].description,
+    );
+    await this.rewardsEmailService.sendStudentDonationEmail(
+      student.name,
+      teacher.name,
+      student.user.email,
+      transaction[2].amount,
+      transaction[2].description,
+    );
 
     return { success: true };
   }
@@ -142,11 +163,13 @@ export class RewardsService {
   async redeemReward(studentId: string, rewardId: string) {
     const student = await this.prisma.student.findUnique({
       where: { userId: studentId },
+      include: { user: true },
     });
     if (!student) throw new BadRequestException('Student not found');
 
     const reward = await this.prisma.reward.findUnique({
       where: { id: rewardId },
+      include: { company: { include: { user: true } } },
     });
     if (!reward || !reward.isActive)
       throw new BadRequestException('Reward not available');
@@ -154,7 +177,7 @@ export class RewardsService {
     if (student.balance < reward.amount)
       throw new BadRequestException('Insufficient balance');
 
-    await this.prisma.$transaction([
+    const transaction = await this.prisma.$transaction([
       this.prisma.student.update({
         where: { userId: studentId },
         data: { balance: { decrement: reward.amount } },
@@ -169,6 +192,22 @@ export class RewardsService {
         },
       }),
     ]);
+
+    await this.rewardsEmailService.sendStudentRewardEmail(
+      student.id,
+      student.name,
+      student.user.email,
+      reward.id,
+      reward.name,
+      reward.company.name,
+    );
+    await this.rewardsEmailService.sendCompanyRewardEmail(
+      student.name,
+      reward.name,
+      reward.company.user.email,
+      reward.company.name,
+      transaction[1].createdAt.toLocaleDateString('pt-BR'),
+    );
 
     return { success: true };
   }
