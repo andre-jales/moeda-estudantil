@@ -163,7 +163,8 @@ export class TeachersService {
   }
 
   async updateTeacher(id: string, updatedTeacherData: UpdateTeacherDTO) {
-    const { institutionId, ...teacherInfo } = updatedTeacherData;
+    const { institutionId, email, password, isActive, ...teacherInfo } =
+      updatedTeacherData;
 
     const updatedTeacher = await this.prismaService.teacher.update({
       where: { userId: id },
@@ -178,11 +179,11 @@ export class TeachersService {
     const updatedUser = await this.prismaService.user.update({
       where: { id },
       data: {
-        email: updatedTeacherData.email,
-        ...(updatedTeacherData.password && {
-          password: await hashPassword(updatedTeacherData.password),
+        email: email,
+        ...(password && {
+          password: await hashPassword(password),
         }),
-        isActive: updatedTeacherData.isActive,
+        isActive: isActive,
         role: Role.TEACHER,
       },
     });

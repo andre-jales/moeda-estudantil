@@ -7,6 +7,7 @@ import RegisterSelectPage from "./features/register/views/RegisterSelectPage";
 import RegisterStudentPage from "./features/register/views/RegisterStudentPage";
 import RegisterCompanyPage from "./features/register/views/RegisterCompanyPage";
 import CompaniesPage from "./features/companies/views/CompaniesPage";
+import TeachersPage from "./features/teachers/views/TeachersPage";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/instituicoes" element={<InstitutionsPage />} />
           <Route path="/alunos" element={<StudentsPage />} />
           <Route path="/empresas" element={<CompaniesPage />} />
+          <Route path="/professores" element={<TeachersPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
