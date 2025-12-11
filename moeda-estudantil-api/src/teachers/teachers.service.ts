@@ -208,11 +208,20 @@ export class TeachersService {
   }
 
   async updateTeacherBalance(id: string, newBalance: number, date: Date) {
-    await this.prismaService.teacher.update({
+    const teacher = await this.prismaService.teacher.update({
       where: { id: id },
       data: {
-        balance: newBalance,
+        balance: { increment: newBalance },
         lastSemesterRewardAt: date,
+      },
+    });
+
+    await this.prismaService.transaction.create({
+      data: {
+        amount: newBalance,
+        description: 'Recarga semestral',
+        type: 'RECHARGE',
+        teacherId: teacher.id,
       },
     });
   }
