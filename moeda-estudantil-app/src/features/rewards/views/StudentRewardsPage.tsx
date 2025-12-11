@@ -140,7 +140,7 @@ const StudentRewardsPage: FC = () => {
         <Typography>{STUDENT_REWARDS_TEXT.states.empty}</Typography>
       )}
 
-      <CardsGrid container flex={1} overflow="auto" spacing={2}>
+      <CardsGrid container flex={1} overflow="auto" spacing={2} padding={1}>
         {items.map((reward) => (
           <Grid size={{ xs: 12, sm: 6, md: 4 }} key={reward.id}>
             <RewardCard elevation={2}>
@@ -186,7 +186,7 @@ const StudentRewardsPage: FC = () => {
                 </Box>
               </RewardCardContent>
               <CardActions
-                sx={{ justifyContent: "flex-end", gap: 1, p: 1, pt: 0.5 }}
+                sx={{ justifyContent: "center", gap: 1, p: 1, pt: 0.5 }}
               >
                 <Button
                   startIcon={<VisibilityIcon />}

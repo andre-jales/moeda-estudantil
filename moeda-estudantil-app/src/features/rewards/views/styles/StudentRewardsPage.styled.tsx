@@ -5,7 +5,7 @@ export const Container = styled(Box)(({ theme }) => ({
   padding: "2rem",
   display: "flex",
   flexDirection: "column",
-  gap: "1.5rem",
+  gap: "0.5rem",
   backgroundColor: theme.palette.background.default,
   height: "100vh",
 }));
@@ -41,4 +41,3 @@ export const RewardCardContent = styled(CardContent)(({ theme }) => ({
 export const StyledTextField = styled(TextField)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
 }));
-
