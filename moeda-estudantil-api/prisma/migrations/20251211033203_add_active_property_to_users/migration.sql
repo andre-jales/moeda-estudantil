@@ -8,4 +8,4 @@
 ALTER TABLE "Company" DROP COLUMN "approved";
 
 -- AlterTable
-ALTER TABLE "User" ADD COLUMN     "active" BOOLEAN NOT NULL DEFAULT false;
+ALTER TABLE "User" ADD COLUMN     "active" BOOLEAN NOT NULL DEFAULT true;
