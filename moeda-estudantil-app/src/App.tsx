@@ -11,6 +11,7 @@ import TeachersPage from "./features/teachers/views/TeachersPage";
 import DonationPage from "./features/rewards/views/DonationPage";
 import TransactionsPage from "./features/rewards/views/TransactionsPage";
 import CompanyRewardsPage from "./features/rewards/views/CompanyRewardsPage";
+import StudentRewardsPage from "./features/rewards/views/StudentRewardsPage";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           <Route path="/doacao" element={<DonationPage />} />
           <Route path="/extrato" element={<TransactionsPage />} />
           <Route path="/gerenciar-vantagens" element={<CompanyRewardsPage />} />
+          <Route path="/vantagens" element={<StudentRewardsPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
