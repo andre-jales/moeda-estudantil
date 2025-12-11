@@ -8,6 +8,7 @@ import RegisterStudentPage from "./features/register/views/RegisterStudentPage";
 import RegisterCompanyPage from "./features/register/views/RegisterCompanyPage";
 import CompaniesPage from "./features/companies/views/CompaniesPage";
 import TeachersPage from "./features/teachers/views/TeachersPage";
+import DonationPage from "./features/rewards/views/DonationPage";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/alunos" element={<StudentsPage />} />
           <Route path="/empresas" element={<CompaniesPage />} />
           <Route path="/professores" element={<TeachersPage />} />
+          <Route path="/doacao" element={<DonationPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
