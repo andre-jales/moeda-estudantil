@@ -27,7 +27,7 @@ const RegisterSelectPage = () => {
         <OptionsWrapper>
           <OptionButton
             variant="contained"
-            onClick={() => navigate("/register/student")}
+            onClick={() => navigate("/registro/aluno")}
             fullWidth
           >
             {REGISTER_SELECT_PAGE_TEXTS.studentButton}
@@ -35,7 +35,7 @@ const RegisterSelectPage = () => {
 
           <OptionButton
             variant="contained"
-            onClick={() => navigate("/register/company")}
+            onClick={() => navigate("/registro/empresa")}
             fullWidth
           >
             {REGISTER_SELECT_PAGE_TEXTS.companyButton}

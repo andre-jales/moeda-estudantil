@@ -31,7 +31,7 @@ const ErrorScreen: FC = () => {
         <SubmitButton
           variant="contained"
           fullWidth
-          onClick={() => navigate("/register")}
+          onClick={() => navigate("/registro")}
         >
           {FEEDBACK_SCREENS_TEXTS.ERROR.BUTTON}
         </SubmitButton>

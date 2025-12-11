@@ -288,7 +288,7 @@ const RegisterStudentPage: FC = () => {
           <BackButton
             variant="outlined"
             fullWidth
-            onClick={() => navigate("/register")}
+            onClick={() => navigate("/registro")}
             sx={{ mt: 1 }}
           >
             {REGISTER_STUDENT_PAGE_TEXTS.backButton}

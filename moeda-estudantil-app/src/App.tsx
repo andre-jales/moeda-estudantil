@@ -12,9 +12,9 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="login" element={<LoginPage />} />
-        <Route path="register" element={<RegisterSelectPage />} />
-        <Route path="register/student" element={<RegisterStudentPage />} />
-        <Route path="register/company" element={<RegisterCompanyPage />} />
+        <Route path="registro" element={<RegisterSelectPage />} />
+        <Route path="registro/aluno" element={<RegisterStudentPage />} />
+        <Route path="registro/empresa" element={<RegisterCompanyPage />} />
         <Route path="/" element={<MainLayout />} />
 
         <Route element={<MainLayout />}>
