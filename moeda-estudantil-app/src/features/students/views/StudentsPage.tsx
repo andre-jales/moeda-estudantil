@@ -364,6 +364,7 @@ const StudentsPage: FC = () => {
           />
 
           <Autocomplete
+            loadingText="Carregando..."
             sx={{ marginTop: 2 }}
             options={(institutionsData?.items ?? []) as IInstitution[]}
             getOptionLabel={(option) => option.name}

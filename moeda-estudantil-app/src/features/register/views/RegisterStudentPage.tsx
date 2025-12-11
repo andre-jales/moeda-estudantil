@@ -240,6 +240,7 @@ const RegisterStudentPage: FC = () => {
 
             <Grid size={{ xs: 12 }}>
               <Autocomplete
+                loadingText="Carregando..."
                 options={institutionsData?.items || []}
                 getOptionLabel={(option) => option.name}
                 noOptionsText={"Instituição não encontrada"}
