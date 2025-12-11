@@ -29,6 +29,8 @@ export interface ITransaction {
   rewardId?: string | null;
   studentName?: string | null;
   studentEmail?: string | null;
+  teacherName?: string | null;
+  teacherEmail?: string | null;
 }
 
 export interface IDonateCoinsPayload {
@@ -61,4 +63,3 @@ export interface IUpdateCompanyRewardPayload {
 export interface IBaseSuccessResponse {
   success: boolean;
 }
-

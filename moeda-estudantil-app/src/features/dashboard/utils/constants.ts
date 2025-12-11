@@ -42,7 +42,7 @@ export const MENU_ITEMS: Record<TUserRole, MenuItem[]> = {
 
   COMPANY: [
     {
-      label: "Cadastrar Vantagens",
+      label: "Vantagens",
       icon: CardGiftcardIcon,
       path: "/vantagens",
     },

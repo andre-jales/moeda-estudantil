@@ -22,7 +22,6 @@ import {
   TRANSACTION_TYPE_LABEL,
   TRANSACTIONS_PAGE_TEXT,
 } from "../utils/transactionsConstants";
-import { useLoadInstitutionStudents } from "../hooks/useLoadInstitutionStudents";
 import { useLoginSlice } from "../../login/hooks/useLoginSlice";
 import type { TUserRole } from "../../login/types/TUserRole";
 
@@ -64,19 +63,7 @@ const isCredit = (type: string, role?: TUserRole) => {
 const TransactionsPage: FC = () => {
   const { data, isLoading, error, refetch } = useLoadTransactions();
   const { authenticatedUser } = useLoginSlice();
-  const isTeacher = authenticatedUser?.role === "TEACHER";
   const role = authenticatedUser?.role;
-
-  const {
-    data: students,
-    isLoading: isLoadingStudents,
-    error: studentsError,
-  } = useLoadInstitutionStudents();
-  const studentsMap =
-    (students ?? []).reduce<Record<string, string>>((acc, student) => {
-      acc[student.id] = student.name;
-      return acc;
-    }, {}) ?? {};
   const items = data ?? [];
 
   return (
@@ -127,9 +114,7 @@ const TransactionsPage: FC = () => {
         )}
 
         {!isLoading && items.length === 0 && !error && (
-          <Typography sx={{ p: 2 }}>
-            {TRANSACTIONS_PAGE_TEXT.empty}
-          </Typography>
+          <Typography sx={{ p: 2 }}>{TRANSACTIONS_PAGE_TEXT.empty}</Typography>
         )}
 
         {items.length > 0 && (
@@ -137,8 +122,14 @@ const TransactionsPage: FC = () => {
             <Table stickyHeader>
               <StyledTableHead>
                 <TableRow>
-                  <TableCell>{TRANSACTIONS_PAGE_TEXT.columns.description}</TableCell>
-                  <TableCell>{TRANSACTIONS_PAGE_TEXT.columns.student}</TableCell>
+                  <TableCell>
+                    {TRANSACTIONS_PAGE_TEXT.columns.description}
+                  </TableCell>
+                  <TableCell>
+                    {role === "TEACHER"
+                      ? TRANSACTIONS_PAGE_TEXT.columns.student
+                      : TRANSACTIONS_PAGE_TEXT.columns.teacher}
+                  </TableCell>
                   <TableCell>{TRANSACTIONS_PAGE_TEXT.columns.type}</TableCell>
                   <TableCell>{TRANSACTIONS_PAGE_TEXT.columns.amount}</TableCell>
                   <TableCell>{TRANSACTIONS_PAGE_TEXT.columns.date}</TableCell>
@@ -148,25 +139,25 @@ const TransactionsPage: FC = () => {
                 {items.map((transaction) => (
                   <TableRow key={transaction.id} hover>
                     <TableCell>{transaction.description}</TableCell>
-                    <TableCell>
-                      {transaction.studentId
-                        ? isTeacher
-                          ? transaction.studentName ??
-                            transaction.studentEmail ??
-                            studentsMap[transaction.studentId] ??
-                            (isLoadingStudents
-                              ? "Carregando..."
-                              : studentsError
-                              ? "Erro"
-                              : transaction.studentId)
-                          : transaction.studentName ?? "Você"
-                        : "-"}
-                      {transaction.studentEmail && isTeacher && (
-                        <Typography variant="body2" color="text.secondary">
-                          {transaction.studentEmail}
-                        </Typography>
-                      )}
-                    </TableCell>
+                    {role === "TEACHER" ? (
+                      <TableCell>
+                        {transaction.studentName ?? "-"}
+                        {transaction.studentEmail && (
+                          <Typography variant="body2" color="text.secondary">
+                            {transaction.studentEmail}
+                          </Typography>
+                        )}
+                      </TableCell>
+                    ) : (
+                      <TableCell>
+                        {transaction.teacherName ?? "-"}
+                        {transaction.teacherEmail && (
+                          <Typography variant="body2" color="text.secondary">
+                            {transaction.teacherEmail}
+                          </Typography>
+                        )}
+                      </TableCell>
+                    )}
                     <TableCell>
                       <Chip
                         label={
@@ -180,17 +171,31 @@ const TransactionsPage: FC = () => {
                     <TableCell>
                       <Stack direction="row" alignItems="center" gap={1}>
                         <Chip
-                          label={isCredit(transaction.type, role) ? "Entrada" : "Saída"}
-                          color={isCredit(transaction.type, role) ? "success" : "error"}
+                          label={
+                            isCredit(transaction.type, role)
+                              ? "Entrada"
+                              : "Saída"
+                          }
+                          color={
+                            isCredit(transaction.type, role)
+                              ? "success"
+                              : "error"
+                          }
                           size="small"
                           variant="outlined"
                         />
                         <Typography
                           component="span"
-                          color={isCredit(transaction.type, role) ? "success.main" : "error.main"}
+                          color={
+                            isCredit(transaction.type, role)
+                              ? "success.main"
+                              : "error.main"
+                          }
                           fontWeight={700}
                         >
-                          {`${isCredit(transaction.type, role) ? "+" : "-"}${transaction.amount}`}
+                          {`${isCredit(transaction.type, role) ? "+" : "-"}${
+                            transaction.amount
+                          }`}
                         </Typography>
                       </Stack>
                     </TableCell>
@@ -207,4 +212,3 @@ const TransactionsPage: FC = () => {
 };
 
 export default TransactionsPage;
-

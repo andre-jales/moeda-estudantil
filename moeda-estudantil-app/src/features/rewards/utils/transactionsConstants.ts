@@ -4,6 +4,7 @@ export const TRANSACTIONS_PAGE_TEXT = {
   columns: {
     description: "Descrição",
     student: "Aluno",
+    teacher: "Professor",
     type: "Tipo",
     amount: "Valor",
     date: "Data",
@@ -17,4 +18,3 @@ export const TRANSACTION_TYPE_LABEL: Record<string, string> = {
   RECHARGE: "Recarga",
   REWARD: "Resgate",
 };
-

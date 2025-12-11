@@ -67,25 +67,20 @@ export class RewardsService {
 
       if (!teacher) throw new BadRequestException('Teacher not found');
 
-      const transaction = await this.prisma.transaction.findMany({
+      const transactions = await this.prisma.transaction.findMany({
         where: { teacherId: teacher.id },
         orderBy: { createdAt: 'desc' },
         include: {
           student: {
             select: { name: true, user: { select: { email: true } } },
           },
-          teacher: {
-            select: { name: true, user: { select: { email: true } } },
-          },
         },
       });
 
-      return transaction.map((tx) => ({
+      return transactions.map((tx) => ({
         ...tx,
         studentName: tx.student?.name || null,
         studentEmail: tx.student?.user.email || null,
-        teacherName: tx.teacher?.name || null,
-        teacherEmail: tx.teacher?.user.email || null,
       }));
     } else {
       const student = await this.prisma.student.findUnique({
@@ -93,10 +88,21 @@ export class RewardsService {
       });
       if (!student) throw new BadRequestException('Student not found');
 
-      return this.prisma.transaction.findMany({
+      const transactions = await this.prisma.transaction.findMany({
         where: { studentId: student.id },
         orderBy: { createdAt: 'desc' },
+        include: {
+          teacher: {
+            select: { name: true, user: { select: { email: true } } },
+          },
+        },
       });
+
+      return transactions.map((tx) => ({
+        ...tx,
+        teacherName: tx.teacher?.name || null,
+        teacherEmail: tx.teacher?.user.email || null,
+      }));
     }
   }
 
