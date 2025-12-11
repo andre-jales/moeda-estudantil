@@ -39,10 +39,10 @@ export const SubmitButton = styled(Button)({
   fontWeight: 700,
 });
 
-export const BackButton = styled(Button)({
+export const BackButton = styled(Button)(({ theme }) => ({
   marginTop: "0.5rem",
   padding: "0.75rem 0",
   fontWeight: 700,
-  color: "#555",
+  color: theme.palette.text.secondary,
   borderColor: "#ccc",
-});
+}));
