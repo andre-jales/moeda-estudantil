@@ -29,7 +29,7 @@ export const StyledDivider = styled(Divider)({
 });
 
 export const Menu = styled(List)({
-  flexGrow: 1,
+  flex: 1,
 });
 
 export const MenuItemIcon = styled(ListItemIcon, {
