@@ -23,7 +23,7 @@ export class RewardsController {
   }
 
   @Get('transactions')
-  @Roles('TEACHER', 'STUDENT')
+  @Roles('TEACHER', 'STUDENT', 'COMPANY')
   async getTransactions(@Req() req: { user: JwtPayloadDTO }) {
     const userId = req.user.sub;
     return this.rewardsService.getTransactions(userId, req.user.role);

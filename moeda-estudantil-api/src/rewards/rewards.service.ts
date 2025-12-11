@@ -61,14 +61,8 @@ export class RewardsService {
 
   async getTransactions(userId: string, role: Role) {
     if (role === 'TEACHER') {
-      const teacher = await this.prisma.teacher.findUnique({
-        where: { userId },
-      });
-
-      if (!teacher) throw new BadRequestException('Teacher not found');
-
       const transactions = await this.prisma.transaction.findMany({
-        where: { teacherId: teacher.id },
+        where: { teacher: { userId } },
         orderBy: { createdAt: 'desc' },
         include: {
           student: {
@@ -82,14 +76,9 @@ export class RewardsService {
         studentName: tx.student?.name || null,
         studentEmail: tx.student?.user.email || null,
       }));
-    } else {
-      const student = await this.prisma.student.findUnique({
-        where: { userId },
-      });
-      if (!student) throw new BadRequestException('Student not found');
-
+    } else if (role === 'STUDENT') {
       const transactions = await this.prisma.transaction.findMany({
-        where: { studentId: student.id },
+        where: { student: { userId } },
         orderBy: { createdAt: 'desc' },
         include: {
           teacher: {
@@ -102,6 +91,28 @@ export class RewardsService {
         ...tx,
         teacherName: tx.teacher?.name || null,
         teacherEmail: tx.teacher?.user.email || null,
+      }));
+    } else {
+      const transactions = await this.prisma.transaction.findMany({
+        where: {
+          reward: {
+            company: {
+              userId: userId,
+            },
+          },
+        },
+        orderBy: { createdAt: 'desc' },
+        include: {
+          student: {
+            select: { name: true, user: { select: { email: true } } },
+          },
+        },
+      });
+
+      return transactions.map((tx) => ({
+        ...tx,
+        studentName: tx.student?.name || null,
+        studentEmail: tx.student?.user.email || null,
       }));
     }
   }
