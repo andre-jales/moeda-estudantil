@@ -1,4 +1,3 @@
-// src/companies/pages/styles/RegisterCompanyPage.styled.ts
 import { Box, Button, Paper, styled, Typography } from "@mui/material";
 
 export const Container = styled(Box)(({ theme }) => ({

@@ -1,4 +1,3 @@
-// src/companies/pages/RegisterCompanyPage.tsx
 import { useState, type FC } from "react";
 import { Typography, TextField, Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
