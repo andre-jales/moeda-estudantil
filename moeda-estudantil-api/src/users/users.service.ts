@@ -6,6 +6,7 @@ import { Role } from 'generated/prisma/enums';
 import { UpdateStudentDTO } from './dto/update-student-dto';
 import { CreateCompanyDto } from './dto/create-company-dto';
 import { CreateTeacherDTO } from './dto/create-teacher-dto';
+import { UpdateCompanyDto } from './dto/update-company-dto';
 
 @Injectable()
 export class UsersService {
@@ -188,6 +189,93 @@ export class UsersService {
     };
   }
 
+  async getCompanies(page = 1, limit = 10, name?: string) {
+    const total = await this.prismaService.company.count({
+      where: {
+        name: name ? { contains: name, mode: 'insensitive' } : undefined,
+      },
+    });
+
+    const companies = await this.prismaService.company.findMany({
+      take: limit,
+      skip: (page - 1) * limit,
+      where: {
+        name: name ? { contains: name, mode: 'insensitive' } : undefined,
+      },
+      select: {
+        name: true,
+        cnpj: true,
+        user: {
+          select: {
+            id: true,
+            email: true,
+            role: true,
+            createdAt: true,
+            updatedAt: true,
+            isActive: true,
+          },
+        },
+      },
+      orderBy: { name: 'asc' },
+    });
+
+    const items = companies.map((company) => ({
+      id: company.user.id,
+      email: company.user.email,
+      role: company.user.role,
+      createdAt: company.user.createdAt,
+      updatedAt: company.user.updatedAt,
+      name: company.name,
+      cnpj: company.cnpj,
+      isActive: company.user.isActive,
+    }));
+
+    const totalPages = Math.ceil(total / limit);
+
+    return {
+      items,
+      total,
+      page,
+      limit,
+      totalPages,
+    };
+  }
+
+  async getCompanyById(id: string) {
+    const company = await this.prismaService.company.findUnique({
+      where: { userId: id },
+      select: {
+        name: true,
+        cnpj: true,
+        user: {
+          select: {
+            id: true,
+            email: true,
+            role: true,
+            createdAt: true,
+            updatedAt: true,
+            isActive: true,
+          },
+        },
+      },
+    });
+
+    if (!company) {
+      return null;
+    }
+
+    return {
+      id: company.user.id,
+      email: company.user.email,
+      role: company.user.role,
+      createdAt: company.user.createdAt,
+      updatedAt: company.user.updatedAt,
+      name: company.name,
+      cnpj: company.cnpj,
+      isActive: company.user.isActive,
+    };
+  }
+
   async createCompany(company: CreateCompanyDto) {
     const { email, password, name, cnpj } = company;
 
@@ -219,6 +307,7 @@ export class UsersService {
             createdAt: true,
             updatedAt: true,
             role: true,
+            isActive: false,
           },
         },
       },
@@ -235,13 +324,37 @@ export class UsersService {
     };
   }
 
-  async approveCompany(id: string) {
+  async updateCompany(id: string, companyUpdatedData: UpdateCompanyDto) {
     const updatedCompany = await this.prismaService.company.update({
       where: { userId: id },
-      data: { approved: true },
+      data: {
+        name: companyUpdatedData.name,
+        cnpj: companyUpdatedData.cnpj,
+      },
     });
 
-    return updatedCompany;
+    const updatedUser = await this.prismaService.user.update({
+      where: { id },
+      data: {
+        email: companyUpdatedData.email,
+        ...(companyUpdatedData.password && {
+          password: await hashPassword(companyUpdatedData.password),
+        }),
+        isActive: companyUpdatedData.isActive,
+        role: Role.COMPANY,
+      },
+    });
+
+    return {
+      id: updatedUser.id,
+      email: updatedUser.email,
+      role: updatedUser.role,
+      createdAt: updatedUser.createdAt,
+      updatedAt: updatedUser.updatedAt,
+      name: updatedCompany.name,
+      cnpj: updatedCompany.cnpj,
+      isActive: updatedUser.isActive,
+    };
   }
 
   async createTeacher(createTeacherDTO: CreateTeacherDTO) {

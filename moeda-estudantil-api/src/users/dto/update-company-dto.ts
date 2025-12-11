@@ -1,7 +1,7 @@
 import { IsNotEmpty, IsString, Length } from 'class-validator';
-import { CreateUserDTO } from './create-user.dto';
+import { UpdateUserDTO } from './update-user.dto';
 
-export class CreateCompanyDto extends CreateUserDTO {
+export class UpdateCompanyDto extends UpdateUserDTO {
   @IsString({ message: 'Name must be a string' })
   @IsNotEmpty({ message: 'Name is required' })
   name: string;
@@ -10,4 +10,7 @@ export class CreateCompanyDto extends CreateUserDTO {
   @IsNotEmpty({ message: 'CNPJ is required' })
   @Length(14, 14, { message: 'CNPJ must be 14 characters long' })
   cnpj: string;
+
+  @IsNotEmpty({ message: 'Active status is required' })
+  isActive: boolean;
 }
