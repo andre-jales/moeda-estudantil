@@ -13,10 +13,20 @@ export const useUpdateStudent = () => {
       address: string;
       course: string;
       institutionId: string;
+      isActive: boolean;
     }
   >({
     mutationKey: ["update-student"],
-    mutationFn: ({ id, name, email, cpf, address, course, institutionId }) =>
+    mutationFn: ({
+      id,
+      name,
+      email,
+      cpf,
+      address,
+      course,
+      institutionId,
+      isActive,
+    }) =>
       studentsManagerInstance.updateStudent(
         id,
         name,
@@ -24,7 +34,8 @@ export const useUpdateStudent = () => {
         cpf,
         address,
         course,
-        institutionId
+        institutionId,
+        isActive
       ),
   });
 

@@ -22,7 +22,8 @@ export class StudentsManager {
     cpf: string,
     address: string,
     course: string,
-    institutionId: string
+    institutionId: string,
+    isActive: boolean
   ) {
     return this.repository.updateStudent({
       id,
@@ -32,6 +33,7 @@ export class StudentsManager {
       address,
       course,
       institutionId,
+      isActive,
     });
   }
 }

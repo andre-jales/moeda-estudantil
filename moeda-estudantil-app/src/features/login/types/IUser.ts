@@ -8,4 +8,5 @@ export interface IUser {
   role: TUserRole;
   createdAt: string;
   updatedAt: string;
+  isActive: boolean;
 }

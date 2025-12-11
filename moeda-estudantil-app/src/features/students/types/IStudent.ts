@@ -8,6 +8,8 @@ export interface IStudent {
   institutionId: string;
   institutionName: string;
   createdAt: Date;
+  updatedAt: Date;
+  isActive: boolean;
 }
 
 export interface ICreateStudent {
@@ -28,6 +30,7 @@ export interface IUpdatedStudent {
   address: string;
   course: string;
   institutionId: string;
+  isActive: boolean;
 }
 
 export interface IGetStudentsParams {
