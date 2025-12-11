@@ -46,13 +46,6 @@ export class UsersController {
     return this.usersService.createCompany(newCompanyData);
   }
 
-  @Put('company/approve/:id')
-  @UseGuards(AuthGuard, RolesGuard)
-  @Roles('ADMIN')
-  approveCompany(@Param('id') id: string) {
-    return this.usersService.approveCompany(id);
-  }
-
   @Put(':id')
   @UseGuards(AuthGuard, RolesGuard)
   @Roles('ADMIN')

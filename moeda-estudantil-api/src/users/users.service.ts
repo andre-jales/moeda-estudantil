@@ -285,6 +285,7 @@ export class UsersService {
       email,
       password: hashedPassword,
       role: Role.COMPANY,
+      isActive: false,
     };
 
     const companyData = {
@@ -307,7 +308,7 @@ export class UsersService {
             createdAt: true,
             updatedAt: true,
             role: true,
-            isActive: false,
+            isActive: true,
           },
         },
       },
@@ -319,6 +320,7 @@ export class UsersService {
       role: createdCompany.user.role,
       createdAt: createdCompany.user.createdAt,
       updatedAt: createdCompany.user.updatedAt,
+      isActive: createdCompany.user.isActive,
       name: createdCompany.name,
       cnpj: createdCompany.cnpj,
     };
