@@ -1,7 +1,7 @@
 import type { AxiosInstance } from "axios";
 import type { IRegisterRepository } from "../types/IRegisterRepository";
 import type { ICreateStudent } from "../../students/types/IStudent";
-import type { ICreateCompany } from "../../companys/types/ICompany";
+import type { ICreateCompany } from "../../companies/types/ICompany";
 import { API_ROUTES } from "../../../shared/api/API_ROUTES";
 
 export class RegisterRepository implements IRegisterRepository {

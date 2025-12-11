@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import registerManagerInstance from "../services";
-import type { ICreateCompany } from "../../companys/types/ICompany";
+import type { ICreateCompany } from "../../companies/types/ICompany";
 
 export const useCreateCompany = () => {
   const { isPending, error, mutate, mutateAsync } = useMutation({

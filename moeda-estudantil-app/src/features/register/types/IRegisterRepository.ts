@@ -1,4 +1,4 @@
-import type { ICompany, ICreateCompany } from "../../companys/types/ICompany";
+import type { ICompany, ICreateCompany } from "../../companies/types/ICompany";
 import type { ICreateStudent, IStudent } from "../../students/types/IStudent";
 
 export interface IRegisterRepository {
