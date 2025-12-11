@@ -116,4 +116,32 @@ export class RewardsService {
 
     return { success: true };
   }
+
+  async getAvailableRewards() {
+    return this.prisma.reward.findMany({
+      where: { isActive: true },
+      orderBy: { name: 'asc' },
+    });
+  }
+
+  async getInstitutionStudents(teacherId: string) {
+    const teacher = await this.prisma.teacher.findUnique({
+      where: { userId: teacherId },
+    });
+
+    if (!teacher) throw new BadRequestException('Teacher not found');
+
+    const students = await this.prisma.student.findMany({
+      where: { institutionId: teacher.institutionId },
+      orderBy: { name: 'asc' },
+      include: { user: true },
+    });
+
+    return students.map((student) => ({
+      id: student.userId,
+      name: student.name,
+      course: student.course,
+      email: student.user.email,
+    }));
+  }
 }

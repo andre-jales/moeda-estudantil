@@ -17,4 +17,12 @@ export const API_ROUTES = {
   GET_TEACHER_BY_ID: "/teachers/{id}",
   CREATE_TEACHER: "/teachers",
   UPDATE_TEACHER: "/teachers/{id}",
+  CREATE_COMPANY_REWARD: "company/rewards",
+  GET_COMPANY_REWARDS: "company/rewards",
+  UPDATE_COMPANY_REWARD: "company/rewards/{id}",
+  DONATE_COINS: "rewards/donate",
+  REDEEM_REWARD: "rewards/redeem",
+  GET_AVAILABLE_REWARDS: "rewards",
+  GET_REWARD_TRANSACTIONS: "rewards/transactions",
+  GET_INSTITUTION_STUDENTS: "rewards/institution-students",
 };

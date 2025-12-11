@@ -5,7 +5,6 @@ import {
   Req,
   Patch,
   Param,
-  Delete,
   Get,
   UseGuards,
 } from '@nestjs/common';
@@ -38,11 +37,6 @@ export class CompanyRewardsController {
     @Body() dto: UpdateRewardDTO,
   ) {
     return this.rewardsService.updateReward(req.user.sub, id, dto);
-  }
-
-  @Delete(':id')
-  async delete(@Req() req: { user: JwtPayloadDTO }, @Param('id') id: string) {
-    return this.rewardsService.deleteReward(req.user.sub, id);
   }
 
   @Get()

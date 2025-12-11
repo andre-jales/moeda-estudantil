@@ -38,4 +38,17 @@ export class RewardsController {
     const studentId = req.user.sub;
     return this.rewardsService.redeemReward(studentId, dto.rewardId);
   }
+
+  @Get()
+  @Roles('STUDENT')
+  async getAvailableRewards() {
+    return this.rewardsService.getAvailableRewards();
+  }
+
+  @Get('institution-students')
+  @Roles('TEACHER')
+  async getInstitutionStudents(@Req() req: { user: JwtPayloadDTO }) {
+    const teacherId = req.user.sub;
+    return this.rewardsService.getInstitutionStudents(teacherId);
+  }
 }

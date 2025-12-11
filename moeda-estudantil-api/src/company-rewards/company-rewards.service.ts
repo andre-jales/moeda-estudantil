@@ -33,16 +33,6 @@ export class CompanyRewardsService {
     });
   }
 
-  async deleteReward(companyId: string, rewardId: string) {
-    const reward = await this.prisma.reward.findUnique({
-      where: { id: rewardId },
-    });
-    if (!reward || reward.companyId !== companyId)
-      throw new BadRequestException('Reward not found');
-
-    return this.prisma.reward.delete({ where: { id: rewardId } });
-  }
-
   async listRewards(companyId: string) {
     return this.prisma.reward.findMany({ where: { companyId } });
   }
