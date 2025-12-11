@@ -57,6 +57,7 @@ model Teacher {
   id                   String    @id @default(uuid())
   name                 String
   cpf                  String    @unique
+  department           String
   createdAt            DateTime  @default(now())
   balance              Int       @default(0)
   lastSemesterRewardAt DateTime?
