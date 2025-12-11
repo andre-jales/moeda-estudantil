@@ -22,6 +22,7 @@ model User {
   role      Role
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  active    Boolean  @default(false)
 
   student Student?
   teacher Teacher?
@@ -60,7 +61,6 @@ model Company {
   id        String   @id @default(uuid())
   name      String
   cnpj      String   @unique
-  approved  Boolean  @default(false)
   createdAt DateTime @default(now())
 
   user   User   @relation(fields: [userId], references: [id])
