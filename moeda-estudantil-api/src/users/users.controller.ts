@@ -17,6 +17,7 @@ import { GetAllStudentsDTO } from './dto/get-all-students.dto';
 import { UpdateStudentDTO } from './dto/update-student-dto';
 import { CreateCompanyDto } from './dto/create-company-dto';
 import { CreateTeacherDTO } from './dto/create-teacher-dto';
+import { UpdateCompanyDto } from './dto/update-company-dto';
 
 @Controller('users')
 export class UsersController {
@@ -46,6 +47,34 @@ export class UsersController {
     return this.usersService.createCompany(newCompanyData);
   }
 
+  @Get('company')
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles('ADMIN')
+  getCompanies(
+    @Query('page') page?: number,
+    @Query('limit') limit?: number,
+    @Query('name') name?: string,
+  ) {
+    return this.usersService.getCompanies(page, limit, name);
+  }
+
+  @Get('company/:id')
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles('ADMIN')
+  getCompanyById(@Param('id') id: string) {
+    return this.usersService.getCompanyById(id);
+  }
+
+  @Put('company/:id')
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles('ADMIN')
+  updateCompany(
+    @Param('id') id: string,
+    @Body() updateCompanyDTO: UpdateCompanyDto,
+  ) {
+    return this.usersService.updateCompany(id, updateCompanyDTO);
+  }
+
   @Put(':id')
   @UseGuards(AuthGuard, RolesGuard)
   @Roles('ADMIN')
@@ -67,8 +96,8 @@ export class UsersController {
   @UseGuards(AuthGuard, RolesGuard)
   @Roles('ADMIN')
   getTeachers(
-    @Query('page') page: number,
-    @Query('limit') limit: number,
+    @Query('page') page?: number,
+    @Query('limit') limit?: number,
     @Query('name') name?: string,
   ) {
     return this.usersService.getTeachers(page, limit, name);
