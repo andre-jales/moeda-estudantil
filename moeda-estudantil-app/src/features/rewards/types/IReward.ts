@@ -27,6 +27,8 @@ export interface ITransaction {
   studentId?: string | null;
   teacherId?: string | null;
   rewardId?: string | null;
+  studentName?: string | null;
+  studentEmail?: string | null;
 }
 
 export interface IDonateCoinsPayload {

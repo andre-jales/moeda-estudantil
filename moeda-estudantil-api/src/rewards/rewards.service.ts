@@ -64,12 +64,29 @@ export class RewardsService {
       const teacher = await this.prisma.teacher.findUnique({
         where: { userId },
       });
+
       if (!teacher) throw new BadRequestException('Teacher not found');
 
-      return this.prisma.transaction.findMany({
+      const transaction = await this.prisma.transaction.findMany({
         where: { teacherId: teacher.id },
         orderBy: { createdAt: 'desc' },
+        include: {
+          student: {
+            select: { name: true, user: { select: { email: true } } },
+          },
+          teacher: {
+            select: { name: true, user: { select: { email: true } } },
+          },
+        },
       });
+
+      return transaction.map((tx) => ({
+        ...tx,
+        studentName: tx.student?.name || null,
+        studentEmail: tx.student?.user.email || null,
+        teacherName: tx.teacher?.name || null,
+        teacherEmail: tx.teacher?.user.email || null,
+      }));
     } else {
       const student = await this.prisma.student.findUnique({
         where: { userId },

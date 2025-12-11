@@ -9,6 +9,7 @@ import RegisterCompanyPage from "./features/register/views/RegisterCompanyPage";
 import CompaniesPage from "./features/companies/views/CompaniesPage";
 import TeachersPage from "./features/teachers/views/TeachersPage";
 import DonationPage from "./features/rewards/views/DonationPage";
+import TransactionsPage from "./features/rewards/views/TransactionsPage";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="/empresas" element={<CompaniesPage />} />
           <Route path="/professores" element={<TeachersPage />} />
           <Route path="/doacao" element={<DonationPage />} />
+          <Route path="/extrato" element={<TransactionsPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
