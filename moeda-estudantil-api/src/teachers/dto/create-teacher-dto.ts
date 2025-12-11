@@ -11,6 +11,10 @@ export class CreateTeacherDTO extends CreateUserDTO {
   @Length(11, 11, { message: 'CPF must be 11 characters long' })
   cpf: string;
 
+  @IsString({ message: 'Department must be a string' })
+  @IsNotEmpty({ message: 'Department is required' })
+  department: string;
+
   @IsString({ message: 'Institution ID must be a string' })
   @IsNotEmpty({ message: 'Institution ID is required' })
   institutionId: string;

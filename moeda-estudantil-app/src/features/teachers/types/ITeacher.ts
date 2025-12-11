@@ -1,6 +1,7 @@
 export interface ITeacher {
   id: string;
   name: string;
+  department: string;
   email: string;
   cpf: string;
   institutionId: string;
@@ -16,6 +17,7 @@ export interface ICreateTeacher {
   email: string;
   password: string;
   name: string;
+  department: string;
   cpf: string;
   institutionId: string;
 }
@@ -23,6 +25,7 @@ export interface ICreateTeacher {
 export interface IUpdatedTeacher {
   id: string;
   name: string;
+  department: string;
   email: string;
   cpf: string;
   institutionId: string;

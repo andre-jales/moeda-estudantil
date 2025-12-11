@@ -1,5 +1,5 @@
 import type { ITeachersRepository } from "../types/ITeachersRepository";
-import type { ICreateTeacher } from "../types/ITeacher";
+import type { ICreateTeacher, IUpdatedTeacher } from "../types/ITeacher";
 
 export class TeachersManager {
   private repository: ITeachersRepository;
@@ -20,23 +20,7 @@ export class TeachersManager {
     return this.repository.createTeacher(payload);
   }
 
-  updateTeacher(
-    id: string,
-    name: string,
-    email: string,
-    cpf: string,
-    institutionId: string,
-    isActive: boolean,
-    password?: string
-  ) {
-    return this.repository.updateTeacher({
-      id,
-      name,
-      email,
-      cpf,
-      institutionId,
-      isActive,
-      password,
-    });
+  updateTeacher(payload: IUpdatedTeacher) {
+    return this.repository.updateTeacher(payload);
   }
 }

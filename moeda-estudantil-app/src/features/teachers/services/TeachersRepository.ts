@@ -49,6 +49,7 @@ export class TeachersRepository implements ITeachersRepository {
       email: payload.email,
       password: payload.password,
       name: payload.name,
+      department: payload.department,
       cpf: payload.cpf,
       institutionId: payload.institutionId,
     });
@@ -62,6 +63,7 @@ export class TeachersRepository implements ITeachersRepository {
     const response = await this.api.put<ITeacher>(url, {
       email: payload.email,
       name: payload.name,
+      department: payload.department,
       cpf: payload.cpf,
       institutionId: payload.institutionId,
       isActive: payload.isActive,

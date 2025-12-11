@@ -59,6 +59,7 @@ const TeachersPage: FC = () => {
   const [editing, setEditing] = useState<ITeacher | null>(null);
 
   const [name, setName] = useState("");
+  const [department, setDepartment] = useState("");
   const [cpfMasked, setCpfMasked] = useState("");
   const [cpfRaw, setCpfRaw] = useState("");
   const [email, setEmail] = useState("");
@@ -75,6 +76,7 @@ const TeachersPage: FC = () => {
     email: "",
     cpf: "",
     password: "",
+    department: "",
     institution: "",
   });
 
@@ -122,6 +124,10 @@ const TeachersPage: FC = () => {
         if (openCreateModal && !value.trim()) message = "Informe a senha.";
         break;
 
+      case "department":
+        if (!value.trim()) message = "Informe o departamento.";
+        break;
+
       case "institution":
         if (!value.trim()) message = "Selecione a instituição.";
         break;
@@ -133,6 +139,7 @@ const TeachersPage: FC = () => {
   const resetForm = () => {
     setEditing(null);
     setName("");
+    setDepartment("");
     setCpfMasked("");
     setCpfRaw("");
     setEmail("");
@@ -141,7 +148,14 @@ const TeachersPage: FC = () => {
     setIsActive(true);
     setSelectedInstitution(null);
     setInstitutionInput("");
-    setErrors({ name: "", email: "", cpf: "", password: "", institution: "" });
+    setErrors({
+      name: "",
+      email: "",
+      cpf: "",
+      password: "",
+      department: "",
+      institution: "",
+    });
   };
 
   const handleEdit = (teacher: ITeacher) => {
@@ -154,6 +168,8 @@ const TeachersPage: FC = () => {
     validateField("email", teacher.email);
 
     const onlyDigits = teacher.cpf.replace(/\D/g, "");
+    setDepartment(teacher.department ?? "");
+    validateField("department", teacher.department ?? "");
     setCpfRaw(onlyDigits);
     setCpfMasked(formatCpf(onlyDigits));
     validateField("cpf", onlyDigits);
@@ -177,6 +193,7 @@ const TeachersPage: FC = () => {
       name,
       email,
       cpf: cpfRaw,
+      department,
       institution: institutionId,
     };
 
@@ -196,6 +213,7 @@ const TeachersPage: FC = () => {
       await updateTeacher({
         id: editing!.id,
         name,
+        department,
         email,
         cpf: cpfRaw,
         institutionId,
@@ -231,6 +249,7 @@ const TeachersPage: FC = () => {
       email,
       cpf: cpfRaw,
       password,
+      department,
       institution: institutionId,
     };
 
@@ -250,6 +269,7 @@ const TeachersPage: FC = () => {
       await createTeacher({
         name,
         email,
+        department,
         cpf: cpfRaw,
         password,
         institutionId,
@@ -286,6 +306,7 @@ const TeachersPage: FC = () => {
       <TableRow key={t.id} hover>
         <TableCell>{t.name}</TableCell>
         <TableCell>{t.email}</TableCell>
+        <TableCell>{t.department ?? "-"}</TableCell>
         <TableCell>{t.institutionName}</TableCell>
         <TableCell>{t.balance}</TableCell>
         <TableCell>{t.isActive ? "Ativo" : "Inativo"}</TableCell>
@@ -334,6 +355,7 @@ const TeachersPage: FC = () => {
               <TableRow>
                 <TableCell>{TEACHERS_PAGE_TEXT.table.name}</TableCell>
                 <TableCell>{TEACHERS_PAGE_TEXT.table.email}</TableCell>
+                <TableCell>Departamento</TableCell>
                 <TableCell>{TEACHERS_PAGE_TEXT.table.institution}</TableCell>
                 <TableCell>{TEACHERS_PAGE_TEXT.table.balance}</TableCell>
                 <TableCell>{TEACHERS_PAGE_TEXT.table.status}</TableCell>
@@ -384,6 +406,19 @@ const TeachersPage: FC = () => {
             sx={{ marginTop: 1 }}
             error={Boolean(errors.name)}
             helperText={errors.name}
+          />
+
+          <TextField
+            fullWidth
+            label="Departamento"
+            value={department}
+            onChange={(e) => {
+              setDepartment(e.target.value);
+              validateField("department", e.target.value);
+            }}
+            sx={{ marginTop: 2 }}
+            error={Boolean(errors.department)}
+            helperText={errors.department}
           />
 
           <TextField
@@ -512,6 +547,19 @@ const TeachersPage: FC = () => {
             sx={{ marginTop: 2 }}
             error={Boolean(errors.password)}
             helperText={errors.password}
+          />
+
+          <TextField
+            fullWidth
+            label="Departamento"
+            value={department}
+            onChange={(e) => {
+              setDepartment(e.target.value);
+              validateField("department", e.target.value);
+            }}
+            sx={{ marginTop: 2 }}
+            error={Boolean(errors.department)}
+            helperText={errors.department}
           />
 
           <TextField

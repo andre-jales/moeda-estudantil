@@ -8,6 +8,7 @@ export const useUpdateTeacher = () => {
     {
       id: string;
       name: string;
+      department: string;
       email: string;
       cpf: string;
       institutionId: string;
@@ -16,16 +17,26 @@ export const useUpdateTeacher = () => {
     }
   >({
     mutationKey: ["update-teacher"],
-    mutationFn: ({ id, name, email, cpf, institutionId, isActive, password }) =>
-      teachersManagerInstance.updateTeacher(
+    mutationFn: ({
+      id,
+      name,
+      department,
+      email,
+      cpf,
+      institutionId,
+      isActive,
+      password,
+    }) =>
+      teachersManagerInstance.updateTeacher({
         id,
         name,
+        department,
         email,
         cpf,
         institutionId,
         isActive,
-        password
-      ),
+        password,
+      }),
   });
 
   return {

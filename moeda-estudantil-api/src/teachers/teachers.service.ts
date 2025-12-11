@@ -54,6 +54,7 @@ export class TeachersService {
       updatedAt: createdTeacher.user.updatedAt,
       isActive: createdTeacher.user.isActive,
       name: createdTeacher.name,
+      department: createdTeacher.department,
     };
   }
 
@@ -72,6 +73,7 @@ export class TeachersService {
       },
       select: {
         name: true,
+        department: true,
         institutionId: true,
         balance: true,
         cpf: true,
@@ -108,6 +110,7 @@ export class TeachersService {
       balance: teacher.balance,
       cpf: teacher.cpf,
       lastSemesterRewardAt: teacher.lastSemesterRewardAt,
+      department: teacher.department,
     }));
 
     const totalPages = Math.ceil(total / limit);
@@ -120,6 +123,7 @@ export class TeachersService {
       where: { userId: id },
       select: {
         name: true,
+        department: true,
         institutionId: true,
         balance: true,
         cpf: true,
@@ -159,6 +163,7 @@ export class TeachersService {
       balance: teacher.balance,
       cpf: teacher.cpf,
       lastSemesterRewardAt: teacher.lastSemesterRewardAt,
+      department: teacher.department,
     };
   }
 
@@ -196,6 +201,7 @@ export class TeachersService {
       updatedAt: updatedUser.updatedAt,
       isActive: updatedUser.isActive,
       name: updatedTeacher.name,
+      department: updatedTeacher.department,
     };
   }
 
