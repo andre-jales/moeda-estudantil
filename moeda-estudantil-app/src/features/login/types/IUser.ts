@@ -9,4 +9,5 @@ export interface IUser {
   createdAt: string;
   updatedAt: string;
   isActive: boolean;
+  balance?: number;
 }

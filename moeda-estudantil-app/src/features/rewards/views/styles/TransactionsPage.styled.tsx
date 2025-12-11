@@ -7,7 +7,7 @@ export const Container = styled(Box)(({ theme }) => ({
   flexDirection: "column",
   gap: "1.5rem",
   backgroundColor: theme.palette.background.default,
-  minHeight: "100vh",
+  height: "100vh",
 }));
 
 export const HeaderWrapper = styled(Box)(({ theme }) => ({
@@ -37,4 +37,3 @@ export const StyledTableHead = styled(TableHead)(({ theme }) => ({
     backgroundColor: theme.palette.background.paper,
   },
 }));
-

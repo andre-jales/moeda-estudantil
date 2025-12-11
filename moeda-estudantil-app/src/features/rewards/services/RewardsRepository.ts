@@ -6,7 +6,7 @@ import type {
   IInstitutionStudent,
   IRedeemRewardPayload,
   IReward,
-  ITransaction,
+  ITransactionsResponse,
 } from "../types/IReward";
 import type { IRewardsRepository } from "../types/IRewardsRepository";
 
@@ -28,8 +28,8 @@ export class RewardsRepository implements IRewardsRepository {
     return response.data;
   }
 
-  async getTransactions(): Promise<ITransaction[]> {
-    const response = await this.api.get<ITransaction[]>(
+  async getTransactions(): Promise<ITransactionsResponse> {
+    const response = await this.api.get<ITransactionsResponse>(
       API_ROUTES.GET_REWARD_TRANSACTIONS
     );
 
@@ -63,4 +63,3 @@ export class RewardsRepository implements IRewardsRepository {
     return response.data;
   }
 }
-

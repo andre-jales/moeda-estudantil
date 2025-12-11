@@ -61,6 +61,10 @@ export class RewardsService {
 
   async getTransactions(userId: string, role: Role) {
     if (role === 'TEACHER') {
+      const teacher = await this.prisma.teacher.findUnique({
+        where: { userId },
+      });
+
       const transactions = await this.prisma.transaction.findMany({
         where: { teacher: { userId } },
         orderBy: { createdAt: 'desc' },
@@ -71,12 +75,21 @@ export class RewardsService {
         },
       });
 
-      return transactions.map((tx) => ({
+      const items = transactions.map((tx) => ({
         ...tx,
         studentName: tx.student?.name || null,
         studentEmail: tx.student?.user.email || null,
       }));
+
+      return {
+        transactions: items,
+        balance: teacher?.balance || null,
+      };
     } else if (role === 'STUDENT') {
+      const student = await this.prisma.student.findUnique({
+        where: { userId },
+      });
+
       const transactions = await this.prisma.transaction.findMany({
         where: { student: { userId } },
         orderBy: { createdAt: 'desc' },
@@ -87,11 +100,16 @@ export class RewardsService {
         },
       });
 
-      return transactions.map((tx) => ({
+      const items = transactions.map((tx) => ({
         ...tx,
         teacherName: tx.teacher?.name || null,
         teacherEmail: tx.teacher?.user.email || null,
       }));
+
+      return {
+        transactions: items,
+        balance: student?.balance || null,
+      };
     } else {
       const transactions = await this.prisma.transaction.findMany({
         where: {
@@ -109,11 +127,15 @@ export class RewardsService {
         },
       });
 
-      return transactions.map((tx) => ({
+      const items = transactions.map((tx) => ({
         ...tx,
         studentName: tx.student?.name || null,
         studentEmail: tx.student?.user.email || null,
       }));
+
+      return {
+        transactions: items,
+      };
     }
   }
 

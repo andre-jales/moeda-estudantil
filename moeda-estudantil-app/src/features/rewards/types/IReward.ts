@@ -11,6 +11,11 @@ export interface IReward {
   companyId: string;
 }
 
+export interface IRewardsResponse {
+  rewards: IReward[];
+  balance?: number | null;
+}
+
 export interface IInstitutionStudent {
   id: string;
   name: string;
@@ -31,6 +36,11 @@ export interface ITransaction {
   studentEmail?: string | null;
   teacherName?: string | null;
   teacherEmail?: string | null;
+}
+
+export interface ITransactionsResponse {
+  transactions: ITransaction[];
+  balance?: number | null;
 }
 
 export interface IDonateCoinsPayload {

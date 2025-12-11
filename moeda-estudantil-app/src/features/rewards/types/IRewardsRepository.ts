@@ -4,14 +4,13 @@ import type {
   IInstitutionStudent,
   IRedeemRewardPayload,
   IReward,
-  ITransaction,
+  ITransactionsResponse,
 } from "./IReward";
 
 export interface IRewardsRepository {
   donateCoins(payload: IDonateCoinsPayload): Promise<IBaseSuccessResponse>;
-  getTransactions(): Promise<ITransaction[]>;
+  getTransactions(): Promise<ITransactionsResponse>;
   redeemReward(payload: IRedeemRewardPayload): Promise<IBaseSuccessResponse>;
   getAvailableRewards(): Promise<IReward[]>;
   getInstitutionStudents(): Promise<IInstitutionStudent[]>;
 }
-

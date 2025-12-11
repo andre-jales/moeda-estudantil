@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import {
   Alert,
+  Box,
   Chip,
   CircularProgress,
   Stack,
@@ -64,7 +65,8 @@ const TransactionsPage: FC = () => {
   const { data, isLoading, error, refetch } = useLoadTransactions();
   const { authenticatedUser } = useLoginSlice();
   const role = authenticatedUser?.role;
-  const items = data ?? [];
+  const items = data?.transactions ?? [];
+  const balance = data?.balance;
 
   return (
     <Container>
@@ -75,6 +77,35 @@ const TransactionsPage: FC = () => {
         <Typography variant="body2" color="text.secondary">
           {TRANSACTIONS_PAGE_TEXT.subtitle}
         </Typography>
+
+        {role !== "COMPANY" && data?.balance && (
+          <Box
+            sx={{
+              mt: 2,
+              p: 1.5,
+              borderRadius: 1.5,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              borderColor: "divider",
+            }}
+          >
+            <Stack>
+              <Typography variant="subtitle2" color="text.secondary">
+                Saldo disponível
+              </Typography>
+              <Typography variant="h5" fontWeight={700}>
+                {`${balance} moedas`}
+              </Typography>
+            </Stack>
+            <Chip
+              label={role === "TEACHER" ? "Professor" : "Aluno"}
+              color="primary"
+              variant="outlined"
+              size="small"
+            />
+          </Box>
+        )}
       </HeaderWrapper>
 
       <TableWrapper elevation={2}>

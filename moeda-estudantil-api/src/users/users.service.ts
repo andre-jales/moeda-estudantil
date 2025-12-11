@@ -406,9 +406,11 @@ export class UsersService {
       ...(user.role === Role.STUDENT && {
         name: user.student?.name,
         course: user.student?.course,
+        balance: user.student?.balance,
       }),
       ...(user.role === Role.TEACHER && {
         name: user.teacher?.name,
+        balance: user.teacher?.balance,
       }),
       ...(user.role === Role.COMPANY && {
         name: user.company?.name,
