@@ -47,4 +47,18 @@ export class AuthService {
 
     return user;
   }
+
+  async updateCredentials(
+    id: string,
+    email: string,
+    currentPassword: string,
+    newPassword: string,
+  ) {
+    return this.usersService.updateCredentials(
+      id,
+      email,
+      currentPassword,
+      newPassword,
+    );
+  }
 }

@@ -28,4 +28,19 @@ export class AuthController {
   getProfile(@Request() req: { user: JwtPayloadDTO }) {
     return this.authService.getUserFromId(req.user.sub);
   }
+
+  @UseGuards(AuthGuard)
+  @Post('update')
+  updateCredentials(
+    @Request() req: { user: JwtPayloadDTO },
+    @Body()
+    body: { email: string; currentPassword: string; newPassword: string },
+  ) {
+    return this.authService.updateCredentials(
+      req.user.sub,
+      body.email,
+      body.currentPassword,
+      body.newPassword,
+    );
+  }
 }

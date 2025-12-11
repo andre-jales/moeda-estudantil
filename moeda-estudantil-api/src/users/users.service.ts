@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateStudentDTO } from './dto/create-student-dto';
-import { hashPassword } from 'src/common/utils/password.utils';
+import { comparePassword, hashPassword } from 'src/common/utils/password.utils';
 import { Role } from 'generated/prisma/enums';
 import { UpdateStudentDTO } from './dto/update-student-dto';
 import { CreateCompanyDto } from './dto/create-company-dto';
@@ -414,6 +414,64 @@ export class UsersService {
       }),
       ...(user.role === Role.COMPANY && {
         name: user.company?.name,
+      }),
+    };
+  }
+
+  async updateCredentials(
+    id: string,
+    email: string,
+    currentPassword: string,
+    newPassword: string,
+  ) {
+    const user = await this.prismaService.user.findUnique({ where: { id } });
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    const isPasswordValid = await comparePassword(
+      currentPassword,
+      user.password,
+    );
+
+    if (!isPasswordValid) {
+      throw new Error('Current password is incorrect');
+    }
+
+    const updatedUser = await this.prismaService.user.update({
+      where: { id },
+      data: {
+        email,
+        ...(newPassword && {
+          password: await hashPassword(newPassword),
+        }),
+      },
+      include: {
+        student: true,
+        teacher: true,
+        company: true,
+      },
+    });
+
+    return {
+      id: updatedUser.id,
+      email: updatedUser.email,
+      role: updatedUser.role,
+      createdAt: updatedUser.createdAt,
+      updatedAt: updatedUser.updatedAt,
+      isActive: updatedUser.isActive,
+      ...(updatedUser.role === Role.STUDENT && {
+        name: updatedUser.student?.name,
+        course: updatedUser.student?.course,
+        balance: updatedUser.student?.balance,
+      }),
+      ...(updatedUser.role === Role.TEACHER && {
+        name: updatedUser.teacher?.name,
+        balance: updatedUser.teacher?.balance,
+      }),
+      ...(updatedUser.role === Role.COMPANY && {
+        name: updatedUser.company?.name,
       }),
     };
   }
