@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { generateQRCode } from 'src/common/utils/qrCode.utils';
 import { EmailService } from 'src/email/email.service';
 import { getCompanyRewardEmail } from 'src/email/templates/company-reward-email';
 import { getStudentDonationEmail } from 'src/email/templates/student-donation-email';
@@ -18,11 +17,11 @@ export class RewardsEmailService {
     rewardName: string,
     companyName: string,
   ) {
-    const qrCode = await generateQRCode(`resgate:${studentId}:${rewardId}`);
+    const qrCodeUrl = `https://quickchart.io/qr?text=${encodeURIComponent(`resgate:${studentId}:${rewardId}`)}&size=180`;
 
     const email = getStudentRewardEmail(
       studentName,
-      qrCode,
+      qrCodeUrl,
       rewardName,
       companyName,
     );
