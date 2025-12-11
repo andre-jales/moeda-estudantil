@@ -27,7 +27,7 @@ export const getStudentDonationEmail = (
     </div>
     <div class="content">
       <h1>Você recebeu uma doação!</h1>
-      <p>Olá <strong>${studentName}</strong>, o professor <strong>${teacherName}</strong> enviou <strong>${quantity}</strong> moedas/vantagens para você.</p>
+      <p>Olá <strong>${studentName}</strong>, o professor <strong>${teacherName}</strong> enviou <strong>${quantity}</strong> moedas para você.</p>
       <p>Motivo: <em>${reason}</em></p>
     </div>
     <div class="footer">
