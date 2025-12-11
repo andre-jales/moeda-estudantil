@@ -43,12 +43,21 @@ export class UsersService {
             role: true,
             createdAt: true,
             updatedAt: true,
+            isActive: true,
           },
         },
       },
     });
 
-    return createdStudent;
+    return {
+      id: createdStudent.user.id,
+      email: createdStudent.user.email,
+      name: createdStudent.name,
+      role: createdStudent.user.role,
+      createdAt: createdStudent.user.createdAt,
+      updatedAt: createdStudent.user.updatedAt,
+      isActive: createdStudent.user.isActive,
+    };
   }
 
   async getStudents(page = 1, limit = 10, name?: string) {
@@ -78,6 +87,7 @@ export class UsersService {
             role: true,
             createdAt: true,
             updatedAt: true,
+            isActive: true,
           },
         },
         institution: {
@@ -100,6 +110,7 @@ export class UsersService {
       course: student.course,
       institutionId: student.institutionId,
       institutionName: student.institution.name,
+      isActive: student.user.isActive,
     }));
 
     const totalPages = Math.ceil(total / limit);
@@ -129,6 +140,7 @@ export class UsersService {
             role: true,
             createdAt: true,
             updatedAt: true,
+            isActive: true,
           },
         },
       },
@@ -149,6 +161,7 @@ export class UsersService {
       address: student.address,
       course: student.course,
       institutionId: student.institutionId,
+      isActive: student.user.isActive,
     };
   }
 
@@ -171,6 +184,7 @@ export class UsersService {
         ...(updateStudentDTO.password && {
           password: await hashPassword(updateStudentDTO.password),
         }),
+        isActive: updateStudentDTO.isActive,
         role: Role.STUDENT,
       },
     });
@@ -186,6 +200,7 @@ export class UsersService {
       address: updatedStudent.address,
       course: updatedStudent.course,
       institutionId: updatedStudent.institutionId,
+      isActive: updatedUser.isActive,
     };
   }
 

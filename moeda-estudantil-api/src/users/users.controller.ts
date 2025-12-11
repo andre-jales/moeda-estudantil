@@ -28,6 +28,16 @@ export class UsersController {
     return this.usersService.createStudent(createStudentDTO);
   }
 
+  @Put('student/:id')
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles('ADMIN')
+  updateStudent(
+    @Param('id') id: string,
+    @Body() updateStudentDTO: UpdateStudentDTO,
+  ) {
+    return this.usersService.updateStudent(id, updateStudentDTO);
+  }
+
   @Get('student')
   @UseGuards(AuthGuard, RolesGuard)
   @Roles('ADMIN')
@@ -73,16 +83,6 @@ export class UsersController {
     @Body() updateCompanyDTO: UpdateCompanyDto,
   ) {
     return this.usersService.updateCompany(id, updateCompanyDTO);
-  }
-
-  @Put(':id')
-  @UseGuards(AuthGuard, RolesGuard)
-  @Roles('ADMIN')
-  updateStudent(
-    @Param('id') id: string,
-    @Body() updateStudentDTO: UpdateStudentDTO,
-  ) {
-    return this.usersService.updateStudent(id, updateStudentDTO);
   }
 
   @Post('teacher')

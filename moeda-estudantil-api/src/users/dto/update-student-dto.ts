@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, Length } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsString, Length } from 'class-validator';
 import { UpdateUserDTO } from './update-user.dto';
 
 export class UpdateStudentDTO extends UpdateUserDTO {
@@ -22,4 +22,8 @@ export class UpdateStudentDTO extends UpdateUserDTO {
   @IsString({ message: 'Institution ID must be a string' })
   @IsNotEmpty({ message: 'Institution ID is required' })
   institutionId: string;
+
+  @IsBoolean({ message: 'Active status must be a boolean' })
+  @IsNotEmpty({ message: 'Active status is required' })
+  isActive: boolean;
 }
