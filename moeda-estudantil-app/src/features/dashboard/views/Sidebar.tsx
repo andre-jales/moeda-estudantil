@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import LogoutIcon from "@mui/icons-material/Logout";
+import SettingsIcon from "@mui/icons-material/Settings";
 import {
   LogoContainer,
   Menu,
@@ -152,6 +153,26 @@ const Sidebar: FC = () => {
             </Typography>
           </Box>
         </Box>
+
+        <Button
+          fullWidth
+          variant="outlined"
+          color="secondary"
+          component={Link}
+          to="/conta"
+          startIcon={<SettingsIcon />}
+          sx={{
+            mb: 1,
+            borderColor: "rgba(255,255,255,0.4)",
+            color: theme.palette.primary.contrastText,
+            "&:hover": {
+              borderColor: "rgba(255,255,255,0.6)",
+              backgroundColor: "rgba(255,255,255,0.1)",
+            },
+          }}
+        >
+          Minha conta
+        </Button>
 
         <Button
           fullWidth

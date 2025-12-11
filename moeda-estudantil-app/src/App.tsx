@@ -12,6 +12,7 @@ import DonationPage from "./features/rewards/views/DonationPage";
 import TransactionsPage from "./features/rewards/views/TransactionsPage";
 import CompanyRewardsPage from "./features/rewards/views/CompanyRewardsPage";
 import StudentRewardsPage from "./features/rewards/views/StudentRewardsPage";
+import UpdateCredentialsPage from "./features/account/views/UpdateCredentialsPage";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           <Route path="/extrato" element={<TransactionsPage />} />
           <Route path="/gerenciar-vantagens" element={<CompanyRewardsPage />} />
           <Route path="/vantagens" element={<StudentRewardsPage />} />
+          <Route path="/conta" element={<UpdateCredentialsPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
