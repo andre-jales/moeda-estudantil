@@ -1,5 +1,12 @@
 import { styled } from "@mui/material/styles";
-import { Box, Paper, TextField, Button } from "@mui/material";
+import {
+  Box,
+  Button,
+  Paper,
+  TableContainer,
+  TableHead,
+  TextField,
+} from "@mui/material";
 
 export const Container = styled(Box)(({ theme }) => ({
   padding: "2rem",
@@ -25,38 +32,38 @@ export const HeaderTop = styled(Box)({
   justifyContent: "space-between",
 });
 
+export const CreateButton = styled(Button)({
+  paddingLeft: "1.5rem",
+  paddingRight: "1.5rem",
+});
+
 export const HeaderBottom = styled(Box)({
   display: "flex",
   gap: "1rem",
   alignItems: "center",
 });
 
-export const SearchField = styled(TextField)({
+export const SearchField = styled(TextField)(({ theme }) => ({
   width: 320,
-  backgroundColor: "white",
-});
-
-export const TableWrapper = styled(Paper)(({ theme }) => ({
-  padding: "1rem",
-  borderRadius: 12,
-  boxShadow: theme.shadows[3],
-  flexGrow: 1,
-  display: "flex",
-  flexDirection: "column",
-  minHeight: 0,
-}));
-
-export const TableContainer = styled(Box)({
-  overflowY: "auto",
-  flexGrow: 1,
-});
-
-export const StyledTableHead = styled("thead")(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
 }));
 
-export const CreateButton = styled(Button)({
-  paddingLeft: "1.5rem",
-  paddingRight: "1.5rem",
-  borderRadius: 8,
+export const TableWrapper = styled(Paper)(({ theme }) => ({
+  padding: theme.spacing(1),
+  borderRadius: 12,
+  flex: 1,
+  overflow: "hidden",
+  display: "flex",
+  flexDirection: "column",
+}));
+
+export const StyledTableContainer = styled(TableContainer)({
+  flex: 1,
+  overflow: "auto",
 });
+
+export const StyledTableHead = styled(TableHead)(({ theme }) => ({
+  ["& .MuiTableCell-head"]: {
+    backgroundColor: theme.palette.background.paper,
+  },
+}));

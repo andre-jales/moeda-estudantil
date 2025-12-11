@@ -256,7 +256,7 @@ const StudentsPage: FC = () => {
         </HeaderBottom>
       </HeaderWrapper>
 
-      <TableWrapper elevation={3}>
+      <TableWrapper elevation={2}>
         <StyledTableContainer>
           <Table stickyHeader>
             <StyledTableHead>

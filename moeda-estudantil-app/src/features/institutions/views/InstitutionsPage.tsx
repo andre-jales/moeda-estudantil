@@ -17,6 +17,7 @@ import {
   Alert,
   Tooltip,
 } from "@mui/material";
+
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 
@@ -30,10 +31,10 @@ import {
   HeaderTop,
   HeaderBottom,
   SearchField,
-  TableWrapper,
-  CreateButton,
-  TableContainer,
+  StyledTableContainer,
   StyledTableHead,
+  CreateButton,
+  TableWrapper,
 } from "./styles/InstitutionsPage.styled";
 
 import { INSTITUTIONS_PAGE_TEXT } from "../utils/constants";
@@ -149,21 +150,15 @@ const InstitutionsPage: FC = () => {
         </HeaderBottom>
       </HeaderWrapper>
 
-      <TableWrapper>
-        <Table>
-          <StyledTableHead>
-            <TableRow>
-              <TableCell>{INSTITUTIONS_PAGE_TEXT.table.name}</TableCell>
-            </TableRow>
-          </StyledTableHead>
-        </Table>
-
-        <TableContainer>
+      <TableWrapper elevation={2}>
+        <StyledTableContainer>
           <Table stickyHeader>
             <StyledTableHead>
               <TableRow>
                 <TableCell>{INSTITUTIONS_PAGE_TEXT.table.name}</TableCell>
-                <TableCell align="right">Ações</TableCell>
+                <TableCell align="right">
+                  {INSTITUTIONS_PAGE_TEXT.table.actions}
+                </TableCell>
               </TableRow>
             </StyledTableHead>
 
@@ -179,6 +174,7 @@ const InstitutionsPage: FC = () => {
               {items.map((i: IInstitution) => (
                 <TableRow key={i.id} hover>
                   <TableCell>{i.name}</TableCell>
+
                   <TableCell align="right">
                     <Tooltip title="Editar" arrow>
                       <IconButton onClick={() => handleEdit(i)}>
@@ -190,9 +186,9 @@ const InstitutionsPage: FC = () => {
               ))}
             </TableBody>
           </Table>
-        </TableContainer>
-
+        </StyledTableContainer>
         <TablePagination
+          sx={{ borderTop: "1px solid #e0e0e0" }}
           component="div"
           count={total}
           page={page}
@@ -202,7 +198,6 @@ const InstitutionsPage: FC = () => {
             setLimit(parseInt(e.target.value, 10));
             setPage(0);
           }}
-          sx={{ overflow: "hidden" }}
           labelRowsPerPage={INSTITUTIONS_PAGE_TEXT.pagination.rowsPerPage}
           labelDisplayedRows={({ from, to, count }) =>
             `${from}-${to} de ${count}`
